@@ -1,0 +1,13 @@
+{
+  "name": "sprintwork-hostinger-horizons",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static SprintWork site exported from Hostinger Horizons.",
+  "scripts": {
+    "start": "http-server -p 3000",
+    "dev": "npm start"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
