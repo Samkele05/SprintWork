@@ -1,4 +1,4 @@
-# SprintWork SprintWork — a comprehensive job matching and employment support platform for both job seekers and employers! Here's what I'm creating:
+SprintWork — a comprehensive job matching and employment support platform for both job seekers and employers! Here's what I'm creating:
 
 
 SprintWork Features:
