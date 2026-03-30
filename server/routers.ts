@@ -526,6 +526,53 @@ export const appRouter = router({
         });
       }),
   }),
+
+  // Advanced CV Services
+  advancedCv: router({
+    analyzeCVForJob: protectedProcedure
+      .input(
+        z.object({
+          cvContent: z.string(),
+          jobTitle: z.string(),
+          jobDescription: z.string(),
+          requiredSkills: z.array(z.string()),
+          preferredSkills: z.array(z.string()),
+        })
+      )
+      .mutation(async ({ input }) => {
+        const { advancedCvService } = await import("./services/advancedCvService");
+        return await advancedCvService.analyzeCVForJob(input.cvContent, {
+          title: input.jobTitle,
+          description: input.jobDescription,
+          requiredSkills: input.requiredSkills,
+          preferredSkills: input.preferredSkills,
+        });
+      }),
+  }),
+
+  // Advanced Interview Services
+  advancedInterview: router({
+    generateQuestions: protectedProcedure
+      .input(
+        z.object({
+          jobTitle: z.string(),
+          jobDescription: z.string(),
+          interviewType: z.enum(["behavioral", "technical", "case_study", "mixed"]).optional(),
+          difficulty: z.enum(["easy", "medium", "hard"]).optional(),
+          count: z.number().optional(),
+        })
+      )
+      .query(async ({ input }) => {
+        const { advancedInterviewService } = await import("./services/advancedInterviewService");
+        return await advancedInterviewService.generateInterviewQuestions(
+          input.jobTitle,
+          input.jobDescription,
+          input.interviewType || "mixed",
+          input.difficulty || "medium",
+          input.count || 5
+        );
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;
