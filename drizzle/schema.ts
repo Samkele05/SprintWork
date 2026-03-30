@@ -35,6 +35,7 @@ export const users = mysqlTable(
     createdAt: timestamp("createdAt").defaultNow().notNull(),
     updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
     lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull(),
+    passwordHash: varchar("passwordHash", { length: 255 }),
   },
   (table) => ({
     emailIdx: index("email_idx").on(table.email),

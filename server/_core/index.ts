@@ -5,6 +5,7 @@ import net from "net";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { registerOAuthRoutes } from "./oauth";
 import { registerOAuthExchangeRoutes } from "./oauthExchange";
+import { registerEmailAuthRoutes } from "./emailAuth";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
@@ -38,6 +39,8 @@ async function startServer() {
   registerOAuthRoutes(app);
   // OAuth exchange for third-party providers
   registerOAuthExchangeRoutes(app);
+  // Email-based auth (signup / login)
+  registerEmailAuthRoutes(app);
   // tRPC API
   app.use(
     "/api/trpc",

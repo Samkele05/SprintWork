@@ -34,14 +34,32 @@ export const appRouter = router({
         })
       )
       .mutation(async ({ ctx, input }) => {
-        // Update user profile - would need to add update function to db.ts
+        const dbConn = await db.getDb();
+        if (dbConn && (input.name !== undefined || input.bio !== undefined || input.location !== undefined || input.profilePictureUrl !== undefined)) {
+          const { eq } = await import("drizzle-orm");
+          const { users } = await import("../drizzle/schema");
+          const updateData: Record<string, unknown> = {};
+          if (input.name !== undefined) updateData.name = input.name;
+          if (input.bio !== undefined) updateData.bio = input.bio;
+          if (input.location !== undefined) updateData.location = input.location;
+          if (input.profilePictureUrl !== undefined) updateData.profilePictureUrl = input.profilePictureUrl;
+          await dbConn.update(users).set(updateData).where(eq(users.id, ctx.user.id));
+        }
         return { success: true };
       }),
 
     switchUserType: protectedProcedure
       .input(z.enum(["job_seeker", "recruiter"]))
       .mutation(async ({ ctx, input }) => {
-        // Switch between job seeker and recruiter
+        const dbConn = await db.getDb();
+        if (dbConn) {
+          const { eq } = await import("drizzle-orm");
+          const { users } = await import("../drizzle/schema");
+          await dbConn
+            .update(users)
+            .set({ userType: input, profileCompleted: true })
+            .where(eq(users.id, ctx.user.id));
+        }
         return { success: true };
       }),
   }),
