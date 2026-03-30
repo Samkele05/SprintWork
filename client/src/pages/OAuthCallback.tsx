@@ -64,9 +64,9 @@ export default function OAuthCallback() {
 
         setMessage("Setting up your profile...");
 
-        // Redirect to dashboard after successful auth
+        // Redirect to onboarding after successful auth
         setTimeout(() => {
-          window.location.href = "/dashboard";
+          window.location.href = "/onboarding";
         }, 1000);
       } catch (err) {
         console.error("OAuth callback error:", err);

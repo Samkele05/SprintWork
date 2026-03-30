@@ -21,12 +21,17 @@ export default function Onboarding() {
 
   const jobSeekerMutation = trpc.jobSeekerProfile.update.useMutation();
   const recruiterMutation = trpc.recruiterProfile.update.useMutation();
+  const switchUserTypeMutation = trpc.profile.switchUserType.useMutation();
 
   const handleNext = async () => {
     if (step === 1) {
       setStep(2);
     } else if (step === 2) {
       try {
+        // Switch user type first
+        await switchUserTypeMutation.mutateAsync(userType);
+
+        // Then save profile details
         if (userType === "job_seeker") {
           await jobSeekerMutation.mutateAsync({
             headline: formData.headline,
@@ -40,9 +45,12 @@ export default function Onboarding() {
           });
         }
         toast.success("Profile setup complete!");
+
+        // Redirect to appropriate dashboard
         navigate("/dashboard");
       } catch (error) {
         toast.error("Failed to save profile");
+        console.error(error);
       }
     }
   };
@@ -150,7 +158,7 @@ export default function Onboarding() {
               <Button variant="outline" onClick={() => setStep(1)} className="flex-1">
                 Back
               </Button>
-              <Button onClick={handleNext} className="flex-1">
+              <Button onClick={handleNext} className="flex-1" disabled={switchUserTypeMutation.isPending || jobSeekerMutation.isPending || recruiterMutation.isPending}>
                 Complete Setup
               </Button>
             </div>
