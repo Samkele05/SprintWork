@@ -24,10 +24,19 @@ import { useIsMobile } from "@/hooks/useMobile";
 import { LayoutDashboard, LogOut, PanelLeft, Users } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
-import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
+import { DashboardLayoutSkeleton } from "./DashboardLayoutSkeleton";
 import { Button } from "./ui/button";
 
-import { Home as HomeIcon, Briefcase, FileText, Brain as BrainIcon, Users as UsersIcon, MessageSquare, GraduationCap, Search } from "lucide-react";
+import {
+  Home as HomeIcon,
+  Briefcase,
+  FileText,
+  Brain as BrainIcon,
+  Users as UsersIcon,
+  MessageSquare,
+  GraduationCap,
+  Search,
+} from "lucide-react";
 
 const menuItems = [
   { icon: HomeIcon, label: "Home", path: "/" },
@@ -37,7 +46,11 @@ const menuItems = [
   { icon: BrainIcon, label: "Mock Interviews", path: "/mock-interviews" },
   { icon: UsersIcon, label: "Networking", path: "/networking" },
   { icon: MessageSquare, label: "Messages", path: "/messages" },
-  { icon: GraduationCap, label: "Skill Development", path: "/skill-development" },
+  {
+    icon: GraduationCap,
+    label: "Skill Development",
+    path: "/skill-development",
+  },
 ];
 
 const SIDEBAR_WIDTH_KEY = "sidebar-width";
@@ -61,7 +74,7 @@ export default function DashboardLayout({
   }, [sidebarWidth]);
 
   if (loading) {
-    return <DashboardLayoutSkeleton />
+    return <DashboardLayoutSkeleton />;
   }
 
   if (!user) {
@@ -73,7 +86,8 @@ export default function DashboardLayout({
               Sign in to continue
             </h1>
             <p className="text-sm text-muted-foreground text-center max-w-sm">
-              Access to this dashboard requires authentication. Continue to launch the login flow.
+              Access to this dashboard requires authentication. Continue to
+              launch the login flow.
             </p>
           </div>
           <Button
