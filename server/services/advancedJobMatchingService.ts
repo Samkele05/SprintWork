@@ -1,3 +1,5 @@
+import { invokeLLM } from "../_core/llm";
+
 /**
  * Advanced Job Matching Service
  * Implements sophisticated algorithms for matching job seekers with opportunities
@@ -48,10 +50,10 @@ export const advancedJobMatchingService = {
   /**
    * Calculate overall match score between user and job
    */
-  calculateMatchScore(
+  async calculateMatchScore(
     userProfile: UserProfile,
     job: JobOpportunity
-  ): MatchResult {
+  ): Promise<MatchResult> {
     // Calculate individual component scores
     const skillScore = calculateSkillMatch(userProfile.skills, job);
     const experienceScore = calculateExperienceMatch(
@@ -90,7 +92,7 @@ export const advancedJobMatchingService = {
     );
 
     // Generate reasoning
-    const reasoning = generateMatchReasoning(
+    const reasoning = await generateMatchReasoning(
       userProfile,
       job,
       skillScore,
@@ -117,12 +119,12 @@ export const advancedJobMatchingService = {
   /**
    * Find top N matching jobs for a user
    */
-  findTopMatches(
+  async findTopMatches(
     userProfile: UserProfile,
     jobs: JobOpportunity[],
     topN: number = 10
-  ): MatchResult[] {
-    const matches = jobs.map((job) => this.calculateMatchScore(userProfile, job));
+  ): Promise<MatchResult[]> {
+    const matches = await Promise.all(jobs.map((job) => this.calculateMatchScore(userProfile, job)));
 
     return matches.sort((a, b) => b.match_score - a.match_score).slice(0, topN);
   },
@@ -367,7 +369,7 @@ function calculateIndustryMatch(
 /**
  * Generate human-readable reasoning for match score
  */
-function generateMatchReasoning(
+async function generateMatchReasoning(
   userProfile: UserProfile,
   job: JobOpportunity,
   skillScore: number,
@@ -375,7 +377,8 @@ function generateMatchReasoning(
   locationScore: number,
   salaryScore: number,
   industryScore: number
-): string {
+): Promise<string> {
+
   const reasons: string[] = [];
 
   if (skillScore >= 80) {
@@ -410,5 +413,48 @@ function generateMatchReasoning(
     reasons.push("Salary may be below expectations");
   }
 
-  return reasons.join(". ") + ".";
+  const prompt = `Given a user profile and a job opportunity, and their match scores across different criteria, generate a concise and human-readable reasoning for the overall match score.
+
+User Profile:
+- Skills: ${userProfile.skills.join(", ")}
+- Experience: ${userProfile.experience_years} years
+- Preferred Locations: ${userProfile.preferred_locations.join(", ")}
+- Salary Expectation: $${userProfile.salary_expectation}
+- Industries: ${userProfile.industries.join(", ")}
+
+Job Opportunity:
+- Title: ${job.title}
+- Description: ${job.description}
+- Required Skills: ${job.required_skills.join(", ")}
+- Experience Required: ${job.experience_required} years
+- Location: ${job.location}
+- Salary Range: $${job.salary_min} - $${job.salary_max}
+- Industry: ${job.industry}
+
+Match Scores (0-100):
+- Skill Match: ${skillScore}
+- Experience Match: ${experienceScore}
+- Location Match: ${locationScore}
+- Salary Match: ${salaryScore}
+- Industry Match: ${industryScore}
+
+Provide a summary of the match, highlighting strengths and areas for improvement. Focus on why the overall score is what it is.`;
+
+  try {
+    const response = await invokeLLM({
+      messages: [
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+      maxTokens: 500,
+    });
+
+    const content = response.choices[0]?.message?.content;
+    return typeof content === "string" ? content : reasons.join(". ") + ".";
+  } catch (error) {
+    console.error("Error generating match reasoning:", error);
+    return reasons.join(". ") + ".";
+  }
 }

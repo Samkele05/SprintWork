@@ -1,6 +1,6 @@
-import { OpenAI } from "openai";
+import { invokeLLM } from "../_core/llm";
 
-const client = new OpenAI();
+
 
 interface CVAnalysisResult {
   atsScore: number;
@@ -108,22 +108,18 @@ Please provide a tailored version of the CV that:
 
 Provide only the tailored CV content, no explanations.`;
 
-    const response = await (client as any).beta.messages.create({
-      model: "gpt-4.1-mini",
-      max_tokens: 2000,
+    const response = await invokeLLM({
       messages: [
         {
           role: "user",
           content: prompt,
         },
       ],
+      maxTokens: 2000,
     });
 
-    return (
-      response.content[0].type === "text"
-        ? response.content[0].text
-        : originalCV
-    );
+    const content = response.choices[0]?.message?.content;
+    return typeof content === "string" ? content : originalCV;
   },
 
   /**
@@ -142,19 +138,18 @@ For each bullet point:
 
 Return only the enhanced bullet points, numbered, with no explanations.`;
 
-    const response = await (client as any).beta.messages.create({
-      model: "gpt-4.1-mini",
-      max_tokens: 1000,
+    const response = await invokeLLM({
       messages: [
         {
           role: "user",
           content: prompt,
         },
       ],
+      maxTokens: 1000,
     });
 
-    const text =
-      response.content[0].type === "text" ? response.content[0].text : "";
+    const text = response.choices[0]?.message?.content;
+    if (typeof text !== "string") return [];
     return text
       .split("\n")
       .filter((line: string) => line.trim())
@@ -333,19 +328,19 @@ Job Description: ${jobDescription.description}
 Format your response as JSON with keys: summary, skills (array), achievements (array)`;
 
   try {
-    const response = await (client as any).beta.messages.create({
-      model: "gpt-4.1-mini",
-      max_tokens: 800,
+    const response = await invokeLLM({
       messages: [
         {
           role: "user",
           content: prompt,
         },
       ],
+      maxTokens: 800,
+      responseFormat: { type: "json_object" },
     });
 
-    const text =
-      response.content[0].type === "text" ? response.content[0].text : "{}";
+    const content = response.choices[0]?.message?.content;
+    const text = typeof content === "string" ? content : "{}";
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
       return JSON.parse(jsonMatch[0]);

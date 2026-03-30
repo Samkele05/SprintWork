@@ -1,6 +1,6 @@
-import { OpenAI } from "openai";
+import { invokeLLM } from "../_core/llm";
 
-const client = new OpenAI();
+
 
 interface InterviewQuestion {
   id: string;
@@ -71,22 +71,26 @@ Return a JSON array with objects containing:
 Return ONLY valid JSON, no markdown or explanations.`;
 
     try {
-      const response = await (client as any).beta.messages.create({
-        model: "gpt-4.1-mini",
-        max_tokens: 2000,
+      const response = await invokeLLM({
         messages: [
           {
             role: "user",
             content: prompt,
           },
         ],
+        maxTokens: 2000,
+        responseFormat: { type: "json_object" }, // Request JSON object for questions
       });
 
-      const text =
-        response.content[0].type === "text" ? response.content[0].text : "[]";
-      const jsonMatch = text.match(/\[[\s\S]*\]/);
-      if (jsonMatch) {
-        return JSON.parse(jsonMatch[0]);
+      const content = response.choices[0]?.message?.content;
+      const text = typeof content === "string" ? content : "[]";
+      // Ensure the content is parsed as an array, even if it's a single object
+      try {
+        const parsed = JSON.parse(text);
+        return Array.isArray(parsed) ? parsed : [parsed];
+      } catch (parseError) {
+        console.error("Failed to parse LLM response as JSON array:", parseError);
+        return [];
       }
     } catch (error) {
       console.error("Error generating interview questions:", error);
@@ -168,22 +172,25 @@ Tips should be:
 Return as a JSON array of strings, with no markdown or explanations.`;
 
     try {
-      const response = await (client as any).beta.messages.create({
-        model: "gpt-4.1-mini",
-        max_tokens: 800,
+      const response = await invokeLLM({
         messages: [
           {
             role: "user",
             content: prompt,
           },
         ],
+        maxTokens: 800,
+        responseFormat: { type: "json_object" }, // Request JSON object for tips
       });
 
-      const text =
-        response.content[0].type === "text" ? response.content[0].text : "[]";
-      const jsonMatch = text.match(/\[[\s\S]*\]/);
-      if (jsonMatch) {
-        return JSON.parse(jsonMatch[0]);
+      const content = response.choices[0]?.message?.content;
+      const text = typeof content === "string" ? content : "[]";
+      try {
+        const parsed = JSON.parse(text);
+        return Array.isArray(parsed) ? parsed : [parsed];
+      } catch (parseError) {
+        console.error("Failed to parse LLM response as JSON array:", parseError);
+        return [];
       }
     } catch (error) {
       console.error("Error generating interview tips:", error);
@@ -423,20 +430,30 @@ Please comment on how well the response follows the STAR method.`;
   }
 
   try {
-    const response = await (client as any).beta.messages.create({
-      model: "gpt-4.1-mini",
-      max_tokens: 800,
+    const response = await invokeLLM({
       messages: [
         {
           role: "user",
           content: prompt,
         },
       ],
+      maxTokens: 800,
+      responseFormat: { type: "json_object" },
     });
 
-    return response.content[0].type === "text"
-      ? response.content[0].text
-      : "Unable to generate feedback.";
+    const content = response.choices[0]?.message?.content;
+    const text = typeof content === "string" ? content : "{}";
+    try {
+      const parsed = JSON.parse(text);
+      if (typeof parsed === 'object' && parsed !== null && 'feedback' in parsed) {
+        return parsed.feedback as string;
+      } else if (typeof parsed === 'string') {
+        return parsed;
+      }
+    } catch (parseError) {
+      console.error("Failed to parse LLM response as JSON:", parseError);
+    }
+    return "Unable to generate feedback: LLM response not in expected format.";
   } catch (error) {
     console.error("Error generating feedback:", error);
     return "Unable to generate feedback at this time.";
