@@ -6,3 +6,5 @@ package-lock.json
 npm-debug.log*
 .env
 .vscode/
+dist/
+data/
