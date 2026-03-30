@@ -149,11 +149,42 @@ export async function calculateMatchScore(
     const requiredMatches = requiredSkillsLower.filter((skill) => userSkillsLower.some((us) => us.includes(skill) || skill.includes(us))).length;
     const preferredMatches = preferredSkillsLower.filter((skill) => userSkillsLower.some((us) => us.includes(skill) || skill.includes(us))).length;
 
-    const requiredScore = (requiredMatches / Math.max(requiredSkillsLower.length, 1)) * 60;
-    const preferredScore = (preferredMatches / Math.max(preferredSkillsLower.length, 1)) * 20;
-    const experienceScore = 20; // Assume user has relevant experience
+    // Weights for each factor
+    const W_SKILLS = 0.6; // Skills are most important
+    const W_EXPERIENCE = 0.2; // Experience is also significant
+    const W_LOCATION = 0.1; // Location match
+    const W_SALARY = 0.1; // Salary match
 
-    return Math.round(requiredScore + preferredScore + experienceScore);
+    // 1. Skill Match Score (Jaccard-like similarity)
+    const allJobSkills = [...requiredSkillsLower, ...preferredSkillsLower];
+    const intersection = userSkillsLower.filter(skill => allJobSkills.includes(skill));
+    const union = new Set([...userSkillsLower, ...allJobSkills]);
+    const skillMatchScore = union.size === 0 ? 0 : (intersection.length / union.size);
+
+    // 2. Experience Match Score (Placeholder for now, needs more data)
+    // For now, a simple binary check or placeholder
+    let experienceMatchScore = 0.5; // Default to medium match
+    // In a real scenario, this would compare user's years of experience with job's required experience
+    // For example: if (userProfile.yearsExperience >= jobAnalysis.minExperience) experienceMatchScore = 1;
+
+    // 3. Location Match Score (Placeholder for now, needs more data)
+    let locationMatchScore = 0.5; // Default to medium match
+    // In a real scenario, this would compare user's preferred location with job's location
+    // For example: if (userProfile.location === job.location) locationMatchScore = 1;
+
+    // 4. Salary Match Score (Placeholder for now, needs more data)
+    let salaryMatchScore = 0.5; // Default to medium match
+    // In a real scenario, this would compare user's salary expectations with job's salary range
+    // For example: if (userProfile.salaryExpectation >= job.minSalary && userProfile.salaryExpectation <= job.maxSalary) salaryMatchScore = 1;
+
+    const totalScore = (
+      W_SKILLS * skillMatchScore +
+      W_EXPERIENCE * experienceMatchScore +
+      W_LOCATION * locationMatchScore +
+      W_SALARY * salaryMatchScore
+    ) * 100;
+
+    return Math.round(totalScore);
   } catch (error) {
     console.error("Failed to calculate match score:", error);
     return 0;
@@ -181,11 +212,11 @@ export async function generateTailoredCV(
       messages: [
         {
           role: "system",
-          content: `You are an expert resume writer specializing in ATS optimization. Tailor the resume to match the job requirements while maintaining authenticity. Include relevant keywords naturally. Format for ATS compatibility (no graphics, simple formatting).`,
-        },
-        {
-          role: "user",
-          content: `User Profile:
+          content: `You are an expert resume writer specializing in ATS optimization. Your goal is to tailor a user's resume to a specific job description, ensuring it passes Applicant Tracking Systems (ATS) and highlights the most relevant skills and experiences. Maintain authenticity and professional tone. Focus on keyword injection, action verb enhancement, and quantifying achievements. The output should be a plain text, ATS-friendly resume (no graphics, simple formatting).
+
+Here's the user's current profile and the target job description:
+
+User Profile:
 Name: ${userProfile.name}
 Email: ${userProfile.email}
 Bio: ${userProfile.bio || "N/A"}
@@ -196,17 +227,20 @@ Education: ${userProfile.education}
 Target Job:
 Title: ${job.title}
 Company: ${job.company}
+Description: ${job.description}
 Required Skills: ${jobAnalysis.requiredSkills.join(", ")}
 Preferred Skills: ${jobAnalysis.preferredSkills.join(", ")}
 Key Responsibilities: ${jobAnalysis.keyResponsibilities.join(", ")}
 Keywords: ${jobAnalysis.keywords.join(", ")}
 
-Generate a tailored resume that:
-1. Highlights skills matching the job requirements
-2. Emphasizes relevant experience
-3. Includes job keywords naturally
-4. Is ATS-optimized
-5. Is compelling and professional`,
+Instructions for tailoring:
+1. **Keyword Injection:** Naturally integrate as many of the job's required and preferred skills/keywords into the resume as possible, especially in the summary and experience sections.
+2. **Action Verb Enhancement:** Replace weak verbs with strong, impactful action verbs (e.g., 'managed' -> 'spearheaded', 'responsible for' -> 'orchestrated').
+3. **Quantification:** Where possible, suggest or insert quantifiable achievements (e.g., 'Increased sales by 20%', 'Reduced costs by $50K'). If specific numbers are not available, prompt the user to add them.
+4. **ATS Optimization:** Ensure the resume is parseable by ATS, using clear headings and standard formatting. Avoid complex layouts.
+5. **Highlight Relevance:** Emphasize experiences and skills most relevant to the job description.
+
+Generate the tailored resume content.`,
         },
       ],
     });

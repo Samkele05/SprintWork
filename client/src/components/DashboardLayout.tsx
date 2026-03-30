@@ -27,9 +27,17 @@ import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
 import { Button } from "./ui/button";
 
+import { Home as HomeIcon, Briefcase, FileText, Brain as BrainIcon, Users as UsersIcon, MessageSquare, GraduationCap, Search } from "lucide-react";
+
 const menuItems = [
-  { icon: LayoutDashboard, label: "Page 1", path: "/" },
-  { icon: Users, label: "Page 2", path: "/some-path" },
+  { icon: HomeIcon, label: "Home", path: "/" },
+  { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
+  { icon: Search, label: "Job Search", path: "/job-search" },
+  { icon: FileText, label: "CV Builder", path: "/cv-builder" },
+  { icon: BrainIcon, label: "Mock Interviews", path: "/mock-interviews" },
+  { icon: UsersIcon, label: "Networking", path: "/networking" },
+  { icon: MessageSquare, label: "Messages", path: "/messages" },
+  { icon: GraduationCap, label: "Skill Development", path: "/skill-development" },
 ];
 
 const SIDEBAR_WIDTH_KEY = "sidebar-width";

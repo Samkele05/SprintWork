@@ -59,29 +59,19 @@ function getEditDistance(s1: string, s2: string): number {
  * Calculate skill match score
  */
 export function calculateSkillMatchScore(userSkills: string[], jobRequiredSkills: string[]): { matchScore: number; matched: string[]; gap: string[] } {
-  const userSkillsLower = userSkills.map((s) => s.toLowerCase());
-  const matched: string[] = [];
-  const gap: string[] = [];
+  const userSkillsLower = new Set(userSkills.map((s) => s.toLowerCase()));
+  const jobRequiredSkillsLower = new Set(jobRequiredSkills.map((s) => s.toLowerCase()));
 
-  for (const requiredSkill of jobRequiredSkills) {
-    const requiredLower = requiredSkill.toLowerCase();
-    let found = false;
+  const userSkillsArray = Array.from(userSkillsLower);
+  const jobSkillsArray = Array.from(jobRequiredSkillsLower);
 
-    for (const userSkill of userSkillsLower) {
-      const similarity = calculateStringSimilarity(userSkill, requiredLower);
-      if (similarity > 70) {
-        matched.push(requiredSkill);
-        found = true;
-        break;
-      }
-    }
+  const intersection = new Set(userSkillsArray.filter(skill => jobRequiredSkillsLower.has(skill)));
+  const union = new Set([...userSkillsArray, ...jobSkillsArray]);
 
-    if (!found) {
-      gap.push(requiredSkill);
-    }
-  }
+  const matched = Array.from(intersection);
+  const gap = jobSkillsArray.filter(skill => !userSkillsLower.has(skill));
 
-  const matchScore = jobRequiredSkills.length > 0 ? (matched.length / jobRequiredSkills.length) * 100 : 0;
+  const matchScore = union.size === 0 ? 0 : (intersection.size / union.size) * 100;
 
   return { matchScore, matched, gap };
 }

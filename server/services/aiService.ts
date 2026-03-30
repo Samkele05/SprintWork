@@ -62,17 +62,33 @@ Return a JSON array with: jobId, matchScore, matchReason, skillsMatched, skillsG
 }
 
 export async function generateInterviewQuestion(interviewType: string, difficulty: string, jobDescription?: string): Promise<string> {
+  let systemPrompt = `You are an expert interview coach. Generate realistic and challenging interview questions for a ${difficulty} level ${interviewType} interview.`;
+  let userPrompt = `Generate a single, thoughtful, open-ended ${difficulty} level ${interviewType} interview question.`;
+
+  if (interviewType.toLowerCase() === "behavioral") {
+    systemPrompt += ` Focus on questions that can be answered using the STAR method (Situation, Task, Action, Result).`;
+    userPrompt += ` Ensure it prompts for a STAR-method response.`;
+  } else if (interviewType.toLowerCase() === "technical") {
+    systemPrompt += ` Focus on data structures, algorithms, or system design principles.`;
+    userPrompt += ` Ensure it assesses problem-solving and technical depth.`;
+  } else if (interviewType.toLowerCase() === "case study") {
+    systemPrompt += ` Focus on analytical thinking, business logic, and problem-solving within a business context.`;
+    userPrompt += ` Ensure it presents a clear business scenario requiring analysis and a proposed solution.`;
+  }
+
+  if (jobDescription) {
+    userPrompt += ` Consider this job description: ${jobDescription}.`;
+  }
+
   const response = await invokeLLM({
     messages: [
       {
         role: "system",
-        content: `You are an expert interview coach. Generate realistic and challenging interview questions.
-For ${interviewType} interviews at ${difficulty} level.
-Make questions thoughtful, open-ended, and designed to assess both technical and soft skills.`,
+        content: systemPrompt,
       },
       {
         role: "user",
-        content: `Generate a ${difficulty} level ${interviewType} interview question${jobDescription ? ` for this job: ${jobDescription}` : ""}.`,
+        content: userPrompt,
       },
     ],
   });
@@ -83,33 +99,56 @@ Make questions thoughtful, open-ended, and designed to assess both technical and
 }
 
 export async function evaluateInterviewAnswer(question: string, answer: string, interviewType: string): Promise<{ score: number; feedback: string }> {
+  let systemPrompt = `You are an expert interview evaluator. Assess the candidate's answer to an interview question.`;
+  let userPrompt = `Interview Type: ${interviewType}\nQuestion: ${question}\nCandidate Answer: ${answer}\n\nEvaluate this answer based on the following rubric and return a JSON object with 'score' (0-100) and 'feedback' (constructive comments):
+
+Scoring Rubric:
+- Content (40%): Accuracy, relevance, and depth of the answer.
+- Structure (30%): Use of STAR method (for behavioral) or logical flow (for technical/case study).
+- Communication (20%): Clarity, tone, and professional language.
+- Confidence (10%): Perceived confidence (from language used) and pace of speech.
+`;
+
+  if (interviewType.toLowerCase() === "behavioral") {
+    systemPrompt += ` Pay close attention to the candidate's use of the STAR method (Situation, Task, Action, Result).`;
+  }
+
   const response = await invokeLLM({
     messages: [
       {
         role: "system",
-        content: `You are an expert interview evaluator. Assess the candidate's answer to an interview question.
-Score from 0-100 based on:
-1. Relevance and clarity
-2. Depth of knowledge
-3. Communication skills
-4. Specific examples/evidence
-5. Professionalism
-
-Return JSON with: score (0-100), feedback (constructive comments)`,
+        content: systemPrompt,
       },
       {
         role: "user",
-        content: `Interview Type: ${interviewType}\nQuestion: ${question}\nCandidate Answer: ${answer}\n\nPlease evaluate this answer.`,
+        content: userPrompt,
       },
     ],
+    response_format: {
+      type: "json_schema",
+      json_schema: {
+        name: "interview_evaluation",
+        strict: true,
+        schema: {
+          type: "object",
+          properties: {
+            score: { type: "number" },
+            feedback: { type: "string" },
+          },
+          required: ["score", "feedback"],
+          additionalProperties: false,
+        },
+      },
+    },
   });
 
   try {
     const content = response.choices[0]?.message?.content;
-    const contentStr = typeof content === "string" ? content : '{"score": 0, "feedback": ""}';
+    const contentStr = typeof content === "string" ? content : '{"score": 0, "feedback": "Unable to evaluate answer"}';
     return JSON.parse(contentStr);
-  } catch {
-    return { score: 0, feedback: "Unable to evaluate answer" };
+  } catch (error) {
+    console.error("Failed to evaluate interview answer:", error);
+    return { score: 0, feedback: "Unable to evaluate answer due to processing error." };
   }
 }
 

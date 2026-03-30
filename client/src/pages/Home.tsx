@@ -15,6 +15,9 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
           <div className="text-2xl font-bold text-blue-600">SprintWork</div>
           <div className="flex gap-4">
+            <Link href="/">
+              <Button variant="ghost">Home</Button>
+            </Link>
             {isAuthenticated ? (
               <>
                 <Link href="/dashboard">
