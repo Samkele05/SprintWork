@@ -7,7 +7,12 @@ import {
   extractSkillsFromJobDescription,
   matchJobToProfile,
 } from "./services/mlService";
-import { tailorCVForJob, generateJobMatches, generateInterviewQuestion, evaluateInterviewAnswer } from "./services/aiService";
+import {
+  tailorCVForJob,
+  generateJobMatches,
+  generateInterviewQuestion,
+  evaluateInterviewAnswer,
+} from "./services/aiService";
 
 describe("ML Service", () => {
   describe("calculateSkillMatchScore", () => {
@@ -39,7 +44,10 @@ describe("ML Service", () => {
 
   describe("calculateLocationMatchScore", () => {
     it("should give 100 for exact location match", () => {
-      const score = calculateLocationMatchScore(["San Francisco, CA"], "San Francisco, CA");
+      const score = calculateLocationMatchScore(
+        ["San Francisco, CA"],
+        "San Francisco, CA"
+      );
       expect(score).toBe(100);
     });
 
@@ -49,7 +57,10 @@ describe("ML Service", () => {
     });
 
     it("should give partial score for same state", () => {
-      const score = calculateLocationMatchScore(["Los Angeles, CA"], "San Francisco, CA");
+      const score = calculateLocationMatchScore(
+        ["Los Angeles, CA"],
+        "San Francisco, CA"
+      );
       expect(score).toBe(70);
     });
   });
@@ -87,7 +98,8 @@ describe("ML Service", () => {
 
   describe("extractSkillsFromJobDescription", () => {
     it("should extract common skills", () => {
-      const description = "We need a React developer with Node.js and TypeScript experience";
+      const description =
+        "We need a React developer with Node.js and TypeScript experience";
       const skills = extractSkillsFromJobDescription(description, "");
 
       expect(skills).toContain("React");
@@ -132,37 +144,63 @@ describe("ML Service", () => {
 
 describe("AI Service", () => {
   describe("tailorCVForJob", () => {
-    it("should return a string response", async () => {
-      const jobDescription = "Looking for a senior developer";
-      const jobRequirements = "React, Node.js, 5+ years";
-      const resumeContent = { summary: "Experienced developer", skills: ["React", "Node.js"] };
+    it(
+      "should return a string response",
+      async () => {
+        const jobDescription = "Looking for a senior developer";
+        const jobRequirements = "React, Node.js, 5+ years";
+        const resumeContent = {
+          summary: "Experienced developer",
+          skills: ["React", "Node.js"],
+        };
 
-      const result = await tailorCVForJob(jobDescription, jobRequirements, resumeContent);
+        const result = await tailorCVForJob(
+          jobDescription,
+          jobRequirements,
+          resumeContent
+        );
 
-      expect(typeof result).toBe("string");
-      expect(result.length).toBeGreaterThan(0);
-    }, { timeout: 15000 });
+        expect(typeof result).toBe("string");
+        expect(result.length).toBeGreaterThan(0);
+      },
+      { timeout: 15000 }
+    );
   });
 
   describe("generateInterviewQuestion", () => {
-    it("should generate a question for behavioral interviews", async () => {
-      const question = await generateInterviewQuestion("behavioral", "medium");
+    it(
+      "should generate a question for behavioral interviews",
+      async () => {
+        const question = await generateInterviewQuestion(
+          "behavioral",
+          "medium"
+        );
 
-      expect(typeof question).toBe("string");
-      expect(question.length).toBeGreaterThan(0);
-    }, { timeout: 15000 });
+        expect(typeof question).toBe("string");
+        expect(question.length).toBeGreaterThan(0);
+      },
+      { timeout: 15000 }
+    );
 
-    it("should generate a question for technical interviews", async () => {
-      const question = await generateInterviewQuestion("technical", "hard");
+    it(
+      "should generate a question for technical interviews",
+      async () => {
+        const question = await generateInterviewQuestion("technical", "hard");
 
-      expect(typeof question).toBe("string");
-      expect(question.length).toBeGreaterThan(0);
-    }, { timeout: 20000 });
+        expect(typeof question).toBe("string");
+        expect(question.length).toBeGreaterThan(0);
+      },
+      { timeout: 20000 }
+    );
   });
 
   describe("evaluateInterviewAnswer", () => {
     it("should return score and feedback", async () => {
-      const result = await evaluateInterviewAnswer("Tell me about yourself", "I am a software engineer with 5 years of experience", "behavioral");
+      const result = await evaluateInterviewAnswer(
+        "Tell me about yourself",
+        "I am a software engineer with 5 years of experience",
+        "behavioral"
+      );
 
       expect(result).toHaveProperty("score");
       expect(result).toHaveProperty("feedback");

@@ -90,7 +90,13 @@ export async function analyzeJobDescription(job: JobDescription): Promise<{
                 items: { type: "string" },
               },
             },
-            required: ["requiredSkills", "preferredSkills", "keyResponsibilities", "experienceLevel", "keywords"],
+            required: [
+              "requiredSkills",
+              "preferredSkills",
+              "keyResponsibilities",
+              "experienceLevel",
+              "keywords",
+            ],
             additionalProperties: false,
           },
         },
@@ -142,12 +148,20 @@ export async function calculateMatchScore(
   }
 ): Promise<number> {
   try {
-    const userSkillsLower = userProfile.skills.map((s) => s.toLowerCase());
-    const requiredSkillsLower = jobAnalysis.requiredSkills.map((s) => s.toLowerCase());
-    const preferredSkillsLower = jobAnalysis.preferredSkills.map((s) => s.toLowerCase());
+    const userSkillsLower = userProfile.skills.map(s => s.toLowerCase());
+    const requiredSkillsLower = jobAnalysis.requiredSkills.map(s =>
+      s.toLowerCase()
+    );
+    const preferredSkillsLower = jobAnalysis.preferredSkills.map(s =>
+      s.toLowerCase()
+    );
 
-    const requiredMatches = requiredSkillsLower.filter((skill) => userSkillsLower.some((us) => us.includes(skill) || skill.includes(us))).length;
-    const preferredMatches = preferredSkillsLower.filter((skill) => userSkillsLower.some((us) => us.includes(skill) || skill.includes(us))).length;
+    const requiredMatches = requiredSkillsLower.filter(skill =>
+      userSkillsLower.some(us => us.includes(skill) || skill.includes(us))
+    ).length;
+    const preferredMatches = preferredSkillsLower.filter(skill =>
+      userSkillsLower.some(us => us.includes(skill) || skill.includes(us))
+    ).length;
 
     // Weights for each factor
     const W_SKILLS = 0.6; // Skills are most important
@@ -157,9 +171,12 @@ export async function calculateMatchScore(
 
     // 1. Skill Match Score (Jaccard-like similarity)
     const allJobSkills = [...requiredSkillsLower, ...preferredSkillsLower];
-    const intersection = userSkillsLower.filter(skill => allJobSkills.includes(skill));
+    const intersection = userSkillsLower.filter(skill =>
+      allJobSkills.includes(skill)
+    );
     const union = new Set([...userSkillsLower, ...allJobSkills]);
-    const skillMatchScore = union.size === 0 ? 0 : (intersection.length / union.size);
+    const skillMatchScore =
+      union.size === 0 ? 0 : intersection.length / union.size;
 
     // 2. Experience Match Score (Placeholder for now, needs more data)
     // For now, a simple binary check or placeholder
@@ -177,12 +194,12 @@ export async function calculateMatchScore(
     // In a real scenario, this would compare user's salary expectations with job's salary range
     // For example: if (userProfile.salaryExpectation >= job.minSalary && userProfile.salaryExpectation <= job.maxSalary) salaryMatchScore = 1;
 
-    const totalScore = (
-      W_SKILLS * skillMatchScore +
-      W_EXPERIENCE * experienceMatchScore +
-      W_LOCATION * locationMatchScore +
-      W_SALARY * salaryMatchScore
-    ) * 100;
+    const totalScore =
+      (W_SKILLS * skillMatchScore +
+        W_EXPERIENCE * experienceMatchScore +
+        W_LOCATION * locationMatchScore +
+        W_SALARY * salaryMatchScore) *
+      100;
 
     return Math.round(totalScore);
   } catch (error) {
@@ -254,16 +271,27 @@ Generate the tailored resume content.`,
     }
 
     // Extract highlights (skills that match)
-    const userSkillsLower = userProfile.skills.map((s) => s.toLowerCase());
-    const highlights = jobAnalysis.requiredSkills.filter((skill) => userSkillsLower.some((us) => us.includes(skill.toLowerCase()) || skill.toLowerCase().includes(us)));
+    const userSkillsLower = userProfile.skills.map(s => s.toLowerCase());
+    const highlights = jobAnalysis.requiredSkills.filter(skill =>
+      userSkillsLower.some(
+        us =>
+          us.includes(skill.toLowerCase()) || skill.toLowerCase().includes(us)
+      )
+    );
 
     // Generate recommendations
     const recommendations: string[] = [];
     const missingSkills = jobAnalysis.requiredSkills.filter(
-      (skill) => !userSkillsLower.some((us) => us.includes(skill.toLowerCase()) || skill.toLowerCase().includes(us))
+      skill =>
+        !userSkillsLower.some(
+          us =>
+            us.includes(skill.toLowerCase()) || skill.toLowerCase().includes(us)
+        )
     );
     if (missingSkills.length > 0) {
-      recommendations.push(`Consider developing these skills: ${missingSkills.slice(0, 3).join(", ")}`);
+      recommendations.push(
+        `Consider developing these skills: ${missingSkills.slice(0, 3).join(", ")}`
+      );
     }
     recommendations.push("Quantify achievements with metrics and results");
     recommendations.push("Use action verbs and industry-specific terminology");
@@ -306,8 +334,14 @@ export async function generateSkillGapAnalysis(
 }> {
   let gaps: string[] = [];
   try {
-    const userSkillsLower = userSkills.map((s) => s.toLowerCase());
-    gaps = requiredSkills.filter((skill) => !userSkillsLower.some((us) => us.includes(skill.toLowerCase()) || skill.toLowerCase().includes(us)));
+    const userSkillsLower = userSkills.map(s => s.toLowerCase());
+    gaps = requiredSkills.filter(
+      skill =>
+        !userSkillsLower.some(
+          us =>
+            us.includes(skill.toLowerCase()) || skill.toLowerCase().includes(us)
+        )
+    );
 
     const response = await invokeLLM({
       messages: [
@@ -335,7 +369,10 @@ export async function generateSkillGapAnalysis(
                   type: "object",
                   properties: {
                     skill: { type: "string" },
-                    priority: { type: "string", enum: ["high", "medium", "low"] },
+                    priority: {
+                      type: "string",
+                      enum: ["high", "medium", "low"],
+                    },
                     resources: { type: "array", items: { type: "string" } },
                   },
                   required: ["skill", "priority", "resources"],
@@ -369,7 +406,7 @@ export async function generateSkillGapAnalysis(
     const gapsList = gaps || [];
     return {
       gaps: gapsList,
-      recommendations: gapsList.map((gap) => ({
+      recommendations: gapsList.map(gap => ({
         skill: gap,
         priority: "high" as const,
         resources: ["Udemy", "Coursera", "LinkedIn Learning"],

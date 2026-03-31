@@ -26,13 +26,17 @@ export default function Applications() {
             <Card key={app.id} className="p-6">
               <div className="flex justify-between items-start">
                 <div>
-                  <h3 className="text-lg font-semibold">Application #{app.id}</h3>
+                  <h3 className="text-lg font-semibold">
+                    Application #{app.id}
+                  </h3>
                   <p className="text-gray-600">Job ID: {app.jobId}</p>
                   <p className="text-sm text-gray-500 mt-2">
                     Applied: {new Date(app.appliedDate).toLocaleDateString()}
                   </p>
                 </div>
-                <Badge className={getStatusColor(app.status)}>{app.status}</Badge>
+                <Badge className={getStatusColor(app.status)}>
+                  {app.status}
+                </Badge>
               </div>
             </Card>
           ))}

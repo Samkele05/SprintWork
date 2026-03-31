@@ -58,20 +58,28 @@ function getEditDistance(s1: string, s2: string): number {
 /**
  * Calculate skill match score
  */
-export function calculateSkillMatchScore(userSkills: string[], jobRequiredSkills: string[]): { matchScore: number; matched: string[]; gap: string[] } {
-  const userSkillsLower = new Set(userSkills.map((s) => s.toLowerCase()));
-  const jobRequiredSkillsLower = new Set(jobRequiredSkills.map((s) => s.toLowerCase()));
+export function calculateSkillMatchScore(
+  userSkills: string[],
+  jobRequiredSkills: string[]
+): { matchScore: number; matched: string[]; gap: string[] } {
+  const userSkillsLower = new Set(userSkills.map(s => s.toLowerCase()));
+  const jobRequiredSkillsLower = new Set(
+    jobRequiredSkills.map(s => s.toLowerCase())
+  );
 
   const userSkillsArray = Array.from(userSkillsLower);
   const jobSkillsArray = Array.from(jobRequiredSkillsLower);
 
-  const intersection = new Set(userSkillsArray.filter(skill => jobRequiredSkillsLower.has(skill)));
+  const intersection = new Set(
+    userSkillsArray.filter(skill => jobRequiredSkillsLower.has(skill))
+  );
   const union = new Set([...userSkillsArray, ...jobSkillsArray]);
 
   const matched = Array.from(intersection);
   const gap = jobSkillsArray.filter(skill => !userSkillsLower.has(skill));
 
-  const matchScore = union.size === 0 ? 0 : (intersection.size / union.size) * 100;
+  const matchScore =
+    union.size === 0 ? 0 : (intersection.size / union.size) * 100;
 
   return { matchScore, matched, gap };
 }
@@ -79,7 +87,10 @@ export function calculateSkillMatchScore(userSkills: string[], jobRequiredSkills
 /**
  * Extract skills from job description using keyword matching
  */
-export function extractSkillsFromJobDescription(description: string, requirements: string): string[] {
+export function extractSkillsFromJobDescription(
+  description: string,
+  requirements: string
+): string[] {
   const commonSkills = [
     "JavaScript",
     "Python",
@@ -141,7 +152,10 @@ export function extractSkillsFromJobDescription(description: string, requirement
 /**
  * Calculate location match score
  */
-export function calculateLocationMatchScore(userLocations: string[], jobLocation: string): number {
+export function calculateLocationMatchScore(
+  userLocations: string[],
+  jobLocation: string
+): number {
   if (!jobLocation) return 100; // Remote-friendly
 
   const jobLocationLower = jobLocation.toLowerCase();
@@ -150,14 +164,21 @@ export function calculateLocationMatchScore(userLocations: string[], jobLocation
     const userLocationLower = userLocation.toLowerCase();
 
     if (userLocationLower === jobLocationLower) return 100;
-    if (userLocationLower.includes("remote") || jobLocationLower.includes("remote")) return 90;
+    if (
+      userLocationLower.includes("remote") ||
+      jobLocationLower.includes("remote")
+    )
+      return 90;
 
     // Check if in same state/country
     const userParts = userLocationLower.split(",");
     const jobParts = jobLocationLower.split(",");
 
     if (userParts.length > 0 && jobParts.length > 0) {
-      if (userParts[userParts.length - 1].trim() === jobParts[jobParts.length - 1].trim()) {
+      if (
+        userParts[userParts.length - 1].trim() ===
+        jobParts[jobParts.length - 1].trim()
+      ) {
         return 70; // Same country/state
       }
     }
@@ -169,7 +190,10 @@ export function calculateLocationMatchScore(userLocations: string[], jobLocation
 /**
  * Calculate salary match score
  */
-export function calculateSalaryMatchScore(userExpectation: number | null, jobSalaryRange: string): number {
+export function calculateSalaryMatchScore(
+  userExpectation: number | null,
+  jobSalaryRange: string
+): number {
   if (!userExpectation || !jobSalaryRange) return 50;
 
   // Parse salary range (e.g., "$100,000 - $150,000")
@@ -192,7 +216,10 @@ export function calculateSalaryMatchScore(userExpectation: number | null, jobSal
 /**
  * Calculate experience level match
  */
-export function calculateExperienceMatchScore(userYearsExperience: number, jobRequirements: string): number {
+export function calculateExperienceMatchScore(
+  userYearsExperience: number,
+  jobRequirements: string
+): number {
   // Extract required years from job requirements
   const yearsMatch = jobRequirements.match(/(\d+)\+?\s*years?/i);
 
@@ -210,18 +237,38 @@ export function calculateExperienceMatchScore(userYearsExperience: number, jobRe
 /**
  * Comprehensive job matching algorithm
  */
-export function matchJobToProfile(userProfile: any, userSkills: string[], job: any): JobMatchResult {
+export function matchJobToProfile(
+  userProfile: any,
+  userSkills: string[],
+  job: any
+): JobMatchResult {
   // Extract skills from job
-  const jobSkills = extractSkillsFromJobDescription(job.description || "", job.requirements || "");
+  const jobSkills = extractSkillsFromJobDescription(
+    job.description || "",
+    job.requirements || ""
+  );
 
   // Calculate individual scores
   const skillScore = calculateSkillMatchScore(userSkills, jobSkills);
-  const locationScore = calculateLocationMatchScore(userProfile.desiredLocations || [], job.location || "");
-  const salaryScore = calculateSalaryMatchScore(userProfile.salaryExpectation, job.salary || "");
-  const experienceScore = calculateExperienceMatchScore(userProfile.yearsExperience || 0, job.requirements || "");
+  const locationScore = calculateLocationMatchScore(
+    userProfile.desiredLocations || [],
+    job.location || ""
+  );
+  const salaryScore = calculateSalaryMatchScore(
+    userProfile.salaryExpectation,
+    job.salary || ""
+  );
+  const experienceScore = calculateExperienceMatchScore(
+    userProfile.yearsExperience || 0,
+    job.requirements || ""
+  );
 
   // Weighted average (skills: 40%, location: 20%, salary: 20%, experience: 20%)
-  const overallScore = skillScore.matchScore * 0.4 + locationScore * 0.2 + salaryScore * 0.2 + experienceScore * 0.2;
+  const overallScore =
+    skillScore.matchScore * 0.4 +
+    locationScore * 0.2 +
+    salaryScore * 0.2 +
+    experienceScore * 0.2;
 
   // Generate match reason
   let matchReason = "Good match based on ";
@@ -246,28 +293,44 @@ export function matchJobToProfile(userProfile: any, userSkills: string[], job: a
 /**
  * Batch job matching for a user against multiple jobs
  */
-export function matchUserToJobs(userProfile: any, userSkills: string[], jobs: any[]): JobMatchResult[] {
+export function matchUserToJobs(
+  userProfile: any,
+  userSkills: string[],
+  jobs: any[]
+): JobMatchResult[] {
   return jobs
-    .map((job) => matchJobToProfile(userProfile, userSkills, job))
+    .map(job => matchJobToProfile(userProfile, userSkills, job))
     .sort((a, b) => b.matchScore - a.matchScore);
 }
 
 /**
  * Personalized job recommendations based on user profile
  */
-export function generatePersonalizedRecommendations(userProfile: any, userSkills: string[], allJobs: any[], topN: number = 10): JobMatchResult[] {
+export function generatePersonalizedRecommendations(
+  userProfile: any,
+  userSkills: string[],
+  allJobs: any[],
+  topN: number = 10
+): JobMatchResult[] {
   const matches = matchUserToJobs(userProfile, userSkills, allJobs);
-  return matches.filter((m) => m.matchScore >= 50).slice(0, topN);
+  return matches.filter(m => m.matchScore >= 50).slice(0, topN);
 }
 
 /**
  * Trending skills analysis
  */
-export function analyzeTrendingSkills(allJobs: any[]): { skill: string; frequency: number; trend: "rising" | "stable" | "declining" }[] {
+export function analyzeTrendingSkills(allJobs: any[]): {
+  skill: string;
+  frequency: number;
+  trend: "rising" | "stable" | "declining";
+}[] {
   const skillFrequency: Record<string, number> = {};
 
   for (const job of allJobs) {
-    const skills = extractSkillsFromJobDescription(job.description || "", job.requirements || "");
+    const skills = extractSkillsFromJobDescription(
+      job.description || "",
+      job.requirements || ""
+    );
     for (const skill of skills) {
       skillFrequency[skill] = (skillFrequency[skill] || 0) + 1;
     }
@@ -277,7 +340,11 @@ export function analyzeTrendingSkills(allJobs: any[]): { skill: string; frequenc
     .map(([skill, frequency]) => ({
       skill,
       frequency,
-      trend: (frequency > allJobs.length * 0.3 ? "rising" : frequency > allJobs.length * 0.1 ? "stable" : "declining") as "rising" | "stable" | "declining",
+      trend: (frequency > allJobs.length * 0.3
+        ? "rising"
+        : frequency > allJobs.length * 0.1
+          ? "stable"
+          : "declining") as "rising" | "stable" | "declining",
     }))
     .sort((a, b) => b.frequency - a.frequency);
 }

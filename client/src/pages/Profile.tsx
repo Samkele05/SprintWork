@@ -3,7 +3,13 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { toast } from "sonner";
@@ -13,14 +19,21 @@ import { MobileHeader } from "@/components/MobileHeader";
 export default function Profile() {
   const { user } = useAuth();
   const [isSyncing, setIsSyncing] = useState(false);
-  
+
   const { data: skills, refetch: refetchSkills } = trpc.skills.list.useQuery();
-  const { data: externalProfiles, refetch: refetchProfiles } = trpc.externalProfiles.list.useQuery();
-  
+  const { data: externalProfiles, refetch: refetchProfiles } =
+    trpc.externalProfiles.list.useQuery();
+
   const [showAddSkill, setShowAddSkill] = useState(false);
   const [showAddProfile, setShowAddProfile] = useState(false);
-  const [skillForm, setSkillForm] = useState({ skillName: "", proficiencyLevel: "intermediate" as const });
-  const [profileForm, setProfileForm] = useState({ platform: "github" as const, profileUrl: "" });
+  const [skillForm, setSkillForm] = useState({
+    skillName: "",
+    proficiencyLevel: "intermediate" as const,
+  });
+  const [profileForm, setProfileForm] = useState({
+    platform: "github" as const,
+    profileUrl: "",
+  });
 
   const addSkillMutation = trpc.skills.add.useMutation();
   const addProfileMutation = trpc.externalProfiles.add.useMutation();
@@ -31,12 +44,16 @@ export default function Profile() {
   useEffect(() => {
     const syncProfileData = async () => {
       if (!externalProfiles || externalProfiles.length === 0) return;
-      
+
       setIsSyncing(true);
       try {
         // Find GitHub and LinkedIn profiles
-        const githubProfile = externalProfiles.find((p: any) => p.platform === "github");
-        const linkedinProfile = externalProfiles.find((p: any) => p.platform === "linkedin");
+        const githubProfile = externalProfiles.find(
+          (p: any) => p.platform === "github"
+        );
+        const linkedinProfile = externalProfiles.find(
+          (p: any) => p.platform === "linkedin"
+        );
 
         // Simulate syncing data from profiles
         // In production, this would call backend APIs to fetch and parse profile data
@@ -159,11 +176,19 @@ export default function Profile() {
             </div>
             <div>
               <Label>Location</Label>
-              <Input value={user?.location || ""} disabled placeholder="Auto-synced from GitHub/LinkedIn" />
+              <Input
+                value={user?.location || ""}
+                disabled
+                placeholder="Auto-synced from GitHub/LinkedIn"
+              />
             </div>
             <div>
               <Label>Bio</Label>
-              <Input value={user?.bio || ""} disabled placeholder="Auto-synced from GitHub/LinkedIn" />
+              <Input
+                value={user?.bio || ""}
+                disabled
+                placeholder="Auto-synced from GitHub/LinkedIn"
+              />
             </div>
           </div>
         </Card>
@@ -186,7 +211,12 @@ export default function Profile() {
                     <Input
                       placeholder="e.g., React, Python, etc."
                       value={skillForm.skillName}
-                      onChange={(e) => setSkillForm({ ...skillForm, skillName: e.target.value })}
+                      onChange={e =>
+                        setSkillForm({
+                          ...skillForm,
+                          skillName: e.target.value,
+                        })
+                      }
                     />
                   </div>
                   <div>
@@ -194,7 +224,12 @@ export default function Profile() {
                     <select
                       className="w-full px-3 py-2 border rounded-md"
                       value={skillForm.proficiencyLevel}
-                      onChange={(e) => setSkillForm({ ...skillForm, proficiencyLevel: e.target.value as any })}
+                      onChange={e =>
+                        setSkillForm({
+                          ...skillForm,
+                          proficiencyLevel: e.target.value as any,
+                        })
+                      }
                     >
                       <option value="beginner">Beginner</option>
                       <option value="intermediate">Intermediate</option>
@@ -213,10 +248,15 @@ export default function Profile() {
           <div className="space-y-2">
             {skills && skills.length > 0 ? (
               skills.map((skill: any) => (
-                <div key={skill.id} className="p-3 bg-gray-50 rounded flex justify-between items-center gap-2">
+                <div
+                  key={skill.id}
+                  className="p-3 bg-gray-50 rounded flex justify-between items-center gap-2"
+                >
                   <div className="flex-1">
                     <p className="font-medium">{skill.skillName}</p>
-                    <p className="text-sm text-gray-600">{skill.proficiencyLevel}</p>
+                    <p className="text-sm text-gray-600">
+                      {skill.proficiencyLevel}
+                    </p>
                   </div>
                   <Button
                     variant="outline"
@@ -229,7 +269,10 @@ export default function Profile() {
                 </div>
               ))
             ) : (
-              <p className="text-gray-500">No skills added yet. Click "Sync from GitHub & LinkedIn" to auto-populate skills.</p>
+              <p className="text-gray-500">
+                No skills added yet. Click "Sync from GitHub & LinkedIn" to
+                auto-populate skills.
+              </p>
             )}
           </div>
         </Card>
@@ -252,7 +295,12 @@ export default function Profile() {
                     <select
                       className="w-full px-3 py-2 border rounded-md"
                       value={profileForm.platform}
-                      onChange={(e) => setProfileForm({ ...profileForm, platform: e.target.value as any })}
+                      onChange={e =>
+                        setProfileForm({
+                          ...profileForm,
+                          platform: e.target.value as any,
+                        })
+                      }
                     >
                       <option value="github">GitHub</option>
                       <option value="linkedin">LinkedIn</option>
@@ -266,7 +314,12 @@ export default function Profile() {
                     <Input
                       placeholder="https://..."
                       value={profileForm.profileUrl}
-                      onChange={(e) => setProfileForm({ ...profileForm, profileUrl: e.target.value })}
+                      onChange={e =>
+                        setProfileForm({
+                          ...profileForm,
+                          profileUrl: e.target.value,
+                        })
+                      }
                     />
                   </div>
                   <Button onClick={handleAddProfile} className="w-full">
@@ -280,7 +333,10 @@ export default function Profile() {
           <div className="space-y-2">
             {externalProfiles && externalProfiles.length > 0 ? (
               externalProfiles.map((profile: any) => (
-                <div key={profile.id} className="p-3 bg-gray-50 rounded flex justify-between items-center gap-2">
+                <div
+                  key={profile.id}
+                  className="p-3 bg-gray-50 rounded flex justify-between items-center gap-2"
+                >
                   <div className="flex-1 min-w-0">
                     <p className="font-medium capitalize">{profile.platform}</p>
                     <a

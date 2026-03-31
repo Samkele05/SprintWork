@@ -22,11 +22,16 @@ export interface OAuthProfile {
 /**
  * Google OAuth Profile Extraction
  */
-export async function getGoogleProfile(accessToken: string): Promise<OAuthProfile> {
+export async function getGoogleProfile(
+  accessToken: string
+): Promise<OAuthProfile> {
   try {
-    const response = await axios.get("https://www.googleapis.com/oauth2/v2/userinfo", {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
+    const response = await axios.get(
+      "https://www.googleapis.com/oauth2/v2/userinfo",
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }
+    );
 
     return {
       id: response.data.id,
@@ -44,7 +49,9 @@ export async function getGoogleProfile(accessToken: string): Promise<OAuthProfil
 /**
  * GitHub OAuth Profile Extraction
  */
-export async function getGitHubProfile(accessToken: string): Promise<OAuthProfile> {
+export async function getGitHubProfile(
+  accessToken: string
+): Promise<OAuthProfile> {
   try {
     // Get user info
     const userResponse = await axios.get("https://api.github.com/user", {
@@ -52,9 +59,12 @@ export async function getGitHubProfile(accessToken: string): Promise<OAuthProfil
     });
 
     // Get user repos to extract skills
-    const reposResponse = await axios.get("https://api.github.com/user/repos?per_page=50", {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
+    const reposResponse = await axios.get(
+      "https://api.github.com/user/repos?per_page=50",
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }
+    );
 
     // Extract languages from repos
     const languages = new Set<string>();
@@ -84,7 +94,9 @@ export async function getGitHubProfile(accessToken: string): Promise<OAuthProfil
 /**
  * LinkedIn OAuth Profile Extraction
  */
-export async function getLinkedInProfile(accessToken: string): Promise<OAuthProfile> {
+export async function getLinkedInProfile(
+  accessToken: string
+): Promise<OAuthProfile> {
   try {
     // Get profile info
     const profileResponse = await axios.get("https://api.linkedin.com/v2/me", {
@@ -105,7 +117,8 @@ export async function getLinkedInProfile(accessToken: string): Promise<OAuthProf
       }
     );
 
-    const email = emailResponse.data.elements?.[0]?.["handle~"]?.emailAddress || "";
+    const email =
+      emailResponse.data.elements?.[0]?.["handle~"]?.emailAddress || "";
 
     // Get profile picture
     const pictureResponse = await axios.get(
@@ -162,7 +175,10 @@ export function getLinkedInAuthUrl(redirectUri: string, state: string): string {
 /**
  * Exchange authorization codes for access tokens
  */
-export async function exchangeGoogleCode(code: string, redirectUri: string): Promise<string> {
+export async function exchangeGoogleCode(
+  code: string,
+  redirectUri: string
+): Promise<string> {
   try {
     const response = await axios.post("https://oauth2.googleapis.com/token", {
       code,
@@ -198,17 +214,24 @@ export async function exchangeGitHubCode(code: string): Promise<string> {
   }
 }
 
-export async function exchangeLinkedInCode(code: string, redirectUri: string): Promise<string> {
+export async function exchangeLinkedInCode(
+  code: string,
+  redirectUri: string
+): Promise<string> {
   try {
-    const response = await axios.post("https://www.linkedin.com/oauth/v2/accessToken", null, {
-      params: {
-        grant_type: "authorization_code",
-        code,
-        redirect_uri: redirectUri,
-        client_id: process.env.LINKEDIN_CLIENT_ID,
-        client_secret: process.env.LINKEDIN_CLIENT_SECRET,
-      },
-    });
+    const response = await axios.post(
+      "https://www.linkedin.com/oauth/v2/accessToken",
+      null,
+      {
+        params: {
+          grant_type: "authorization_code",
+          code,
+          redirect_uri: redirectUri,
+          client_id: process.env.LINKEDIN_CLIENT_ID,
+          client_secret: process.env.LINKEDIN_CLIENT_SECRET,
+        },
+      }
+    );
 
     return response.data.access_token;
   } catch (error) {

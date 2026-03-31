@@ -21,15 +21,23 @@ describe("Integration Tests", () => {
       try {
         const result = await db.createPostedJob(postedJobData);
         expect(result).toBeDefined();
-        
+
         // Verify job appears in search results
-        const searchResults = await db.searchJobs({ title: "Senior React" }, 20, 0);
-        const foundJob = searchResults?.find((j: any) => j.title === "Senior React Developer");
+        const searchResults = await db.searchJobs(
+          { title: "Senior React" },
+          20,
+          0
+        );
+        const foundJob = searchResults?.find(
+          (j: any) => j.title === "Senior React Developer"
+        );
         expect(foundJob).toBeDefined();
         expect(foundJob?.company).toBe("Tech Corp");
       } catch (error) {
         // Expected in test environment without real DB
-        console.log("Integration test: DB not available (expected in test env)");
+        console.log(
+          "Integration test: DB not available (expected in test env)"
+        );
       }
     });
 
@@ -49,7 +57,9 @@ describe("Integration Tests", () => {
         // The status should be 'published' not 'draft'
         expect(result).toBeDefined();
       } catch (error) {
-        console.log("Integration test: DB not available (expected in test env)");
+        console.log(
+          "Integration test: DB not available (expected in test env)"
+        );
       }
     });
   });
@@ -74,11 +84,16 @@ describe("Integration Tests", () => {
 
         // Delete profile (if ID is available)
         if (profiles && profiles.length > 0) {
-          const deleteResult = await db.deleteExternalProfile(profiles[0].id, 1);
+          const deleteResult = await db.deleteExternalProfile(
+            profiles[0].id,
+            1
+          );
           expect(deleteResult).toBeDefined();
         }
       } catch (error) {
-        console.log("Integration test: DB not available (expected in test env)");
+        console.log(
+          "Integration test: DB not available (expected in test env)"
+        );
       }
     });
   });
@@ -107,7 +122,9 @@ describe("Integration Tests", () => {
           expect(deleteResult).toBeDefined();
         }
       } catch (error) {
-        console.log("Integration test: DB not available (expected in test env)");
+        console.log(
+          "Integration test: DB not available (expected in test env)"
+        );
       }
     });
   });

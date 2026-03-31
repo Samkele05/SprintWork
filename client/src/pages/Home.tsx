@@ -3,7 +3,14 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Link } from "wouter";
 import { getLoginUrl } from "@/const";
-import { Sparkles, Zap, Brain, Network, TrendingUp, Shield } from "lucide-react";
+import {
+  Sparkles,
+  Zap,
+  Brain,
+  Network,
+  TrendingUp,
+  Shield,
+} from "lucide-react";
 
 export default function Home() {
   const { user, isAuthenticated } = useAuth();
@@ -42,7 +49,8 @@ export default function Home() {
           Your AI-Powered Career Companion
         </h1>
         <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-          SprintWork uses advanced AI and machine learning to help you find the perfect job, prepare for interviews, and advance your career.
+          SprintWork uses advanced AI and machine learning to help you find the
+          perfect job, prepare for interviews, and advance your career.
         </p>
         <div className="flex gap-4 justify-center">
           {isAuthenticated ? (
@@ -77,7 +85,9 @@ export default function Home() {
 
       {/* Features Grid */}
       <section className="max-w-7xl mx-auto px-4 py-20">
-        <h2 className="text-3xl font-bold text-center mb-12">Powerful Features</h2>
+        <h2 className="text-3xl font-bold text-center mb-12">
+          Powerful Features
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* AI CV Tailoring */}
           <Card className="p-6 hover:shadow-lg transition">
@@ -86,7 +96,8 @@ export default function Home() {
               <h3 className="text-xl font-semibold">AI CV Tailoring</h3>
             </div>
             <p className="text-gray-600">
-              Automatically tailor your resume to match job postings. Our AI optimizes for ATS and highlights your most relevant skills.
+              Automatically tailor your resume to match job postings. Our AI
+              optimizes for ATS and highlights your most relevant skills.
             </p>
           </Card>
 
@@ -97,7 +108,8 @@ export default function Home() {
               <h3 className="text-xl font-semibold">Mock Interviews</h3>
             </div>
             <p className="text-gray-600">
-              Practice with AI-powered interviews. Get real-time feedback, scoring, and personalized coaching to ace your interviews.
+              Practice with AI-powered interviews. Get real-time feedback,
+              scoring, and personalized coaching to ace your interviews.
             </p>
           </Card>
 
@@ -108,7 +120,8 @@ export default function Home() {
               <h3 className="text-xl font-semibold">Smart Job Matching</h3>
             </div>
             <p className="text-gray-600">
-              Machine learning algorithms match you with jobs that fit your skills, experience, and career goals.
+              Machine learning algorithms match you with jobs that fit your
+              skills, experience, and career goals.
             </p>
           </Card>
 
@@ -119,7 +132,8 @@ export default function Home() {
               <h3 className="text-xl font-semibold">Job Aggregation</h3>
             </div>
             <p className="text-gray-600">
-              Access jobs from LinkedIn, Indeed, Upwork, and more in one place. Never miss an opportunity.
+              Access jobs from LinkedIn, Indeed, Upwork, and more in one place.
+              Never miss an opportunity.
             </p>
           </Card>
 
@@ -130,7 +144,8 @@ export default function Home() {
               <h3 className="text-xl font-semibold">Networking Hub</h3>
             </div>
             <p className="text-gray-600">
-              Connect with recruiters, mentors, and professionals. Build meaningful relationships that advance your career.
+              Connect with recruiters, mentors, and professionals. Build
+              meaningful relationships that advance your career.
             </p>
           </Card>
 
@@ -141,7 +156,8 @@ export default function Home() {
               <h3 className="text-xl font-semibold">Skill Development</h3>
             </div>
             <p className="text-gray-600">
-              Access personalized learning paths and courses to develop in-demand skills and stay competitive.
+              Access personalized learning paths and courses to develop
+              in-demand skills and stay competitive.
             </p>
           </Card>
         </div>
@@ -156,21 +172,27 @@ export default function Home() {
               <span className="text-2xl font-bold text-blue-600">1</span>
             </div>
             <h3 className="font-semibold mb-2">Create Profile</h3>
-            <p className="text-gray-600">Set up your profile and tell us about your career goals</p>
+            <p className="text-gray-600">
+              Set up your profile and tell us about your career goals
+            </p>
           </div>
           <div className="text-center">
             <div className="bg-indigo-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
               <span className="text-2xl font-bold text-indigo-600">2</span>
             </div>
             <h3 className="font-semibold mb-2">Get Matched</h3>
-            <p className="text-gray-600">AI finds the best job opportunities for you</p>
+            <p className="text-gray-600">
+              AI finds the best job opportunities for you
+            </p>
           </div>
           <div className="text-center">
             <div className="bg-purple-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
               <span className="text-2xl font-bold text-purple-600">3</span>
             </div>
             <h3 className="font-semibold mb-2">Prepare & Apply</h3>
-            <p className="text-gray-600">Tailor your CV and practice interviews</p>
+            <p className="text-gray-600">
+              Tailor your CV and practice interviews
+            </p>
           </div>
           <div className="text-center">
             <div className="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
@@ -208,8 +230,13 @@ export default function Home() {
 
       {/* CTA Section */}
       <section className="max-w-7xl mx-auto px-4 py-20 text-center">
-        <h2 className="text-3xl font-bold mb-6">Ready to Transform Your Career?</h2>
-        <p className="text-xl text-gray-600 mb-8">Join thousands of professionals using SprintWork to land their dream jobs.</p>
+        <h2 className="text-3xl font-bold mb-6">
+          Ready to Transform Your Career?
+        </h2>
+        <p className="text-xl text-gray-600 mb-8">
+          Join thousands of professionals using SprintWork to land their dream
+          jobs.
+        </p>
         {!isAuthenticated && (
           <a href={getLoginUrl()}>
             <Button size="lg" className="bg-blue-600 hover:bg-blue-700">

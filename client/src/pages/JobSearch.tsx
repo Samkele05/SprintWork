@@ -21,12 +21,14 @@ export default function JobSearch() {
             <Input
               placeholder="Job title"
               value={filters.title}
-              onChange={(e) => setFilters({ ...filters, title: e.target.value })}
+              onChange={e => setFilters({ ...filters, title: e.target.value })}
             />
             <Input
               placeholder="Location"
               value={filters.location}
-              onChange={(e) => setFilters({ ...filters, location: e.target.value })}
+              onChange={e =>
+                setFilters({ ...filters, location: e.target.value })
+              }
             />
             <Button>Search</Button>
           </div>

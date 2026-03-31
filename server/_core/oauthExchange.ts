@@ -78,7 +78,9 @@ async function exchangeOAuthCode(
   });
 
   if (!tokenResponse.ok) {
-    throw new Error(`Failed to exchange OAuth code: ${tokenResponse.statusText}`);
+    throw new Error(
+      `Failed to exchange OAuth code: ${tokenResponse.statusText}`
+    );
   }
 
   const tokenData = await tokenResponse.json();
@@ -102,7 +104,9 @@ async function exchangeOAuthCode(
   });
 
   if (!userInfoResponse.ok) {
-    throw new Error(`Failed to fetch user info: ${userInfoResponse.statusText}`);
+    throw new Error(
+      `Failed to fetch user info: ${userInfoResponse.statusText}`
+    );
   }
 
   const userInfo = await userInfoResponse.json();

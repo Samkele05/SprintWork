@@ -18,9 +18,14 @@ export default function SkillDevelopment() {
               <div key={p.id} className="p-4 border rounded-lg">
                 <p className="font-semibold">Course {p.courseId}</p>
                 <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
-                  <div className="bg-blue-600 h-2 rounded-full" style={{ width: `${p.progress}%` }}></div>
+                  <div
+                    className="bg-blue-600 h-2 rounded-full"
+                    style={{ width: `${p.progress}%` }}
+                  ></div>
                 </div>
-                <p className="text-sm text-gray-600 mt-2">{p.progress}% complete</p>
+                <p className="text-sm text-gray-600 mt-2">
+                  {p.progress}% complete
+                </p>
               </div>
             ))}
           </div>

@@ -13,15 +13,21 @@ export default function RecruiterDashboard() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <Card className="p-6">
-            <h3 className="text-gray-600 text-sm font-semibold mb-2">Posted Jobs</h3>
+            <h3 className="text-gray-600 text-sm font-semibold mb-2">
+              Posted Jobs
+            </h3>
             <p className="text-3xl font-bold">{postedJobs?.length || 0}</p>
           </Card>
           <Card className="p-6">
-            <h3 className="text-gray-600 text-sm font-semibold mb-2">Total Applications</h3>
+            <h3 className="text-gray-600 text-sm font-semibold mb-2">
+              Total Applications
+            </h3>
             <p className="text-3xl font-bold">24</p>
           </Card>
           <Card className="p-6">
-            <h3 className="text-gray-600 text-sm font-semibold mb-2">Shortlisted</h3>
+            <h3 className="text-gray-600 text-sm font-semibold mb-2">
+              Shortlisted
+            </h3>
             <p className="text-3xl font-bold">8</p>
           </Card>
         </div>
@@ -36,7 +42,9 @@ export default function RecruiterDashboard() {
             {postedJobs?.map((job: any) => (
               <div key={job.id} className="p-4 border rounded-lg">
                 <h3 className="font-semibold">{job.title}</h3>
-                <p className="text-sm text-gray-600">{job.applicantCount} applications</p>
+                <p className="text-sm text-gray-600">
+                  {job.applicantCount} applications
+                </p>
               </div>
             ))}
           </div>

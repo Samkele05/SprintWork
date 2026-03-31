@@ -18,7 +18,9 @@ export default function Messages() {
           <div className="mb-6 max-h-96 overflow-y-auto">
             {messages?.map((msg: any) => (
               <div key={msg.id} className="mb-4 p-3 bg-gray-50 rounded">
-                <p className="text-sm text-gray-600">From: User {msg.senderId}</p>
+                <p className="text-sm text-gray-600">
+                  From: User {msg.senderId}
+                </p>
                 <p className="mt-2">{msg.content}</p>
               </div>
             ))}
@@ -28,7 +30,7 @@ export default function Messages() {
             <Input
               placeholder="Type a message..."
               value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
+              onChange={e => setNewMessage(e.target.value)}
             />
             <Button>Send</Button>
           </div>

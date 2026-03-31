@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
@@ -9,7 +15,8 @@ import { Loader2, Play } from "lucide-react";
 
 export default function MockInterviewsEnhanced() {
   const [selectedType, setSelectedType] = useState<string>("");
-  const [selectedDifficulty, setSelectedDifficulty] = useState<string>("medium");
+  const [selectedDifficulty, setSelectedDifficulty] =
+    useState<string>("medium");
   const [startingInterview, setStartingInterview] = useState(false);
 
   const { data: interviews } = trpc.mockInterviews.list.useQuery();
@@ -59,7 +66,9 @@ export default function MockInterviewsEnhanced() {
             <h2 className="text-xl font-semibold mb-6">Start New Interview</h2>
             <div className="space-y-4">
               <div>
-                <label className="text-sm font-medium mb-2 block">Interview Type</label>
+                <label className="text-sm font-medium mb-2 block">
+                  Interview Type
+                </label>
                 <Select value={selectedType} onValueChange={setSelectedType}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select type..." />
@@ -74,8 +83,13 @@ export default function MockInterviewsEnhanced() {
               </div>
 
               <div>
-                <label className="text-sm font-medium mb-2 block">Difficulty Level</label>
-                <Select value={selectedDifficulty} onValueChange={setSelectedDifficulty}>
+                <label className="text-sm font-medium mb-2 block">
+                  Difficulty Level
+                </label>
+                <Select
+                  value={selectedDifficulty}
+                  onValueChange={setSelectedDifficulty}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Select difficulty..." />
                   </SelectTrigger>
@@ -119,19 +133,28 @@ export default function MockInterviewsEnhanced() {
 
           {/* Interview History */}
           <div className="lg:col-span-2">
-            <h2 className="text-xl font-semibold mb-6">Your Interview History</h2>
+            <h2 className="text-xl font-semibold mb-6">
+              Your Interview History
+            </h2>
             <div className="space-y-4">
               {interviews && interviews.length > 0 ? (
                 interviews.map((interview: any) => (
-                  <Card key={interview.id} className="p-6 hover:shadow-lg transition">
+                  <Card
+                    key={interview.id}
+                    className="p-6 hover:shadow-lg transition"
+                  >
                     <div className="flex justify-between items-start mb-4">
                       <div>
-                        <h3 className="font-semibold capitalize text-lg">{interview.interviewType} Interview</h3>
+                        <h3 className="font-semibold capitalize text-lg">
+                          {interview.interviewType} Interview
+                        </h3>
                         <p className="text-sm text-gray-600">
                           {new Date(interview.createdAt).toLocaleDateString()}
                         </p>
                       </div>
-                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusBadgeColor(interview.status)}`}>
+                      <span
+                        className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusBadgeColor(interview.status)}`}
+                      >
                         {interview.status.replace(/_/g, " ")}
                       </span>
                     </div>
@@ -139,8 +162,12 @@ export default function MockInterviewsEnhanced() {
                     {interview.score && (
                       <div className="mb-4">
                         <div className="flex justify-between mb-2">
-                          <span className="text-sm font-medium">Performance Score</span>
-                          <span className="text-sm font-bold text-blue-600">{interview.score}/100</span>
+                          <span className="text-sm font-medium">
+                            Performance Score
+                          </span>
+                          <span className="text-sm font-bold text-blue-600">
+                            {interview.score}/100
+                          </span>
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-2">
                           <div
@@ -154,7 +181,9 @@ export default function MockInterviewsEnhanced() {
                     {interview.feedback && (
                       <div className="bg-gray-50 p-4 rounded-lg mb-4">
                         <p className="text-sm font-medium mb-2">Feedback:</p>
-                        <p className="text-sm text-gray-700">{interview.feedback.substring(0, 200)}...</p>
+                        <p className="text-sm text-gray-700">
+                          {interview.feedback.substring(0, 200)}...
+                        </p>
                       </div>
                     )}
 
@@ -174,8 +203,13 @@ export default function MockInterviewsEnhanced() {
                 ))
               ) : (
                 <Card className="p-8 text-center">
-                  <p className="text-gray-600 mb-4">No interviews yet. Start your first mock interview!</p>
-                  <Button onClick={handleStartInterview} disabled={!selectedType}>
+                  <p className="text-gray-600 mb-4">
+                    No interviews yet. Start your first mock interview!
+                  </p>
+                  <Button
+                    onClick={handleStartInterview}
+                    disabled={!selectedType}
+                  >
                     Start Interview
                   </Button>
                 </Card>
