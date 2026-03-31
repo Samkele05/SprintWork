@@ -47,12 +47,16 @@ export default function JobDetail() {
 
           <div className="mb-8">
             <h2 className="text-xl font-semibold mb-4">Description</h2>
-            <p className="text-gray-700 whitespace-pre-wrap">{job.description}</p>
+            <p className="text-gray-700 whitespace-pre-wrap">
+              {job.description}
+            </p>
           </div>
 
           <div className="mb-8">
             <h2 className="text-xl font-semibold mb-4">Requirements</h2>
-            <p className="text-gray-700 whitespace-pre-wrap">{job.requirements}</p>
+            <p className="text-gray-700 whitespace-pre-wrap">
+              {job.requirements}
+            </p>
           </div>
 
           <Button onClick={handleApply} size="lg">

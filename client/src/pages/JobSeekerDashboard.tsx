@@ -7,7 +7,9 @@ import { trpc } from "@/lib/trpc";
 export default function JobSeekerDashboard() {
   const { user } = useAuth();
   const { data: applications } = trpc.applications.list.useQuery();
-  const { data: recommendations } = trpc.recommendations.getMatches.useQuery({});
+  const { data: recommendations } = trpc.recommendations.getMatches.useQuery(
+    {}
+  );
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -16,15 +18,21 @@ export default function JobSeekerDashboard() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <Card className="p-6">
-            <h3 className="text-gray-600 text-sm font-semibold mb-2">Applications</h3>
+            <h3 className="text-gray-600 text-sm font-semibold mb-2">
+              Applications
+            </h3>
             <p className="text-3xl font-bold">{applications?.length || 0}</p>
           </Card>
           <Card className="p-6">
-            <h3 className="text-gray-600 text-sm font-semibold mb-2">Recommendations</h3>
+            <h3 className="text-gray-600 text-sm font-semibold mb-2">
+              Recommendations
+            </h3>
             <p className="text-3xl font-bold">{recommendations?.length || 0}</p>
           </Card>
           <Card className="p-6">
-            <h3 className="text-gray-600 text-sm font-semibold mb-2">Profile Strength</h3>
+            <h3 className="text-gray-600 text-sm font-semibold mb-2">
+              Profile Strength
+            </h3>
             <p className="text-3xl font-bold">75%</p>
           </Card>
         </div>

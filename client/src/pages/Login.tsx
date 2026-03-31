@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2, Mail, Lock, User } from "lucide-react";
@@ -66,7 +72,7 @@ export default function Login() {
   };
 
   const toggleMode = () => {
-    setMode((m) => (m === "signin" ? "signup" : "signin"));
+    setMode(m => (m === "signin" ? "signup" : "signin"));
     setError(null);
   };
 
@@ -74,8 +80,12 @@ export default function Login() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
       <Card className="w-full max-w-md shadow-lg">
         <CardHeader className="space-y-2 text-center">
-          <CardTitle className="text-3xl font-bold tracking-tight">SprintWork</CardTitle>
-          <CardDescription className="text-base">Your AI-Powered Career Companion</CardDescription>
+          <CardTitle className="text-3xl font-bold tracking-tight">
+            SprintWork
+          </CardTitle>
+          <CardDescription className="text-base">
+            Your AI-Powered Career Companion
+          </CardDescription>
           <p className="text-sm text-gray-500 pt-1">
             {mode === "signin"
               ? "Sign in to continue your career journey"
@@ -96,7 +106,7 @@ export default function Login() {
                     type="text"
                     placeholder="Jane Smith"
                     value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={e => setName(e.target.value)}
                     className="pl-9"
                     autoComplete="name"
                   />
@@ -114,7 +124,7 @@ export default function Login() {
                   type="email"
                   placeholder="you@example.com"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={e => setEmail(e.target.value)}
                   className="pl-9"
                   required
                   autoComplete="email"
@@ -130,12 +140,18 @@ export default function Login() {
                 <Input
                   id="password"
                   type="password"
-                  placeholder={mode === "signup" ? "At least 6 characters" : "Your password"}
+                  placeholder={
+                    mode === "signup"
+                      ? "At least 6 characters"
+                      : "Your password"
+                  }
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={e => setPassword(e.target.value)}
                   className="pl-9"
                   required
-                  autoComplete={mode === "signup" ? "new-password" : "current-password"}
+                  autoComplete={
+                    mode === "signup" ? "new-password" : "current-password"
+                  }
                   minLength={mode === "signup" ? 6 : 1}
                 />
               </div>

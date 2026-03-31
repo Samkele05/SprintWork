@@ -24,7 +24,10 @@ export interface ScrapedJob {
  * Simulate Indeed job scraping
  * In production, use Indeed's official API or a scraping library with proper headers
  */
-export async function scrapeIndeedJobs(searchQuery: string, location: string): Promise<ScrapedJob[]> {
+export async function scrapeIndeedJobs(
+  searchQuery: string,
+  location: string
+): Promise<ScrapedJob[]> {
   // This is a mock implementation
   // In production, you would use Puppeteer, Cheerio, or Indeed's official API
   const mockJobs: ScrapedJob[] = [
@@ -64,7 +67,10 @@ export async function scrapeIndeedJobs(searchQuery: string, location: string): P
  * Simulate LinkedIn job scraping
  * Note: LinkedIn's ToS generally prohibit scraping; use official API when available
  */
-export async function scrapeLinkedInJobs(searchQuery: string, location: string): Promise<ScrapedJob[]> {
+export async function scrapeLinkedInJobs(
+  searchQuery: string,
+  location: string
+): Promise<ScrapedJob[]> {
   // Mock implementation
   const mockJobs: ScrapedJob[] = [
     {
@@ -101,7 +107,9 @@ export async function scrapeLinkedInJobs(searchQuery: string, location: string):
 /**
  * Simulate Upwork freelance job scraping
  */
-export async function scrapeUpworkJobs(searchQuery: string): Promise<ScrapedJob[]> {
+export async function scrapeUpworkJobs(
+  searchQuery: string
+): Promise<ScrapedJob[]> {
   // Mock implementation
   const mockJobs: ScrapedJob[] = [
     {
@@ -138,7 +146,10 @@ export async function scrapeUpworkJobs(searchQuery: string): Promise<ScrapedJob[
 /**
  * Aggregate jobs from all sources
  */
-export async function aggregateJobsFromAllSources(searchQuery: string, location: string): Promise<ScrapedJob[]> {
+export async function aggregateJobsFromAllSources(
+  searchQuery: string,
+  location: string
+): Promise<ScrapedJob[]> {
   try {
     const [indeedJobs, linkedInJobs, upworkJobs] = await Promise.all([
       scrapeIndeedJobs(searchQuery, location),
@@ -208,9 +219,14 @@ export async function saveScrapedJobs(jobs: ScrapedJob[]): Promise<number> {
 /**
  * Full job scraping and aggregation pipeline
  */
-export async function runJobScrapingPipeline(searchQuery: string, location: string): Promise<{ success: boolean; jobsScraped: number; jobsSaved: number }> {
+export async function runJobScrapingPipeline(
+  searchQuery: string,
+  location: string
+): Promise<{ success: boolean; jobsScraped: number; jobsSaved: number }> {
   try {
-    console.log(`Starting job scraping pipeline for: ${searchQuery} in ${location}`);
+    console.log(
+      `Starting job scraping pipeline for: ${searchQuery} in ${location}`
+    );
 
     // Aggregate jobs from all sources
     const allJobs = await aggregateJobsFromAllSources(searchQuery, location);
@@ -242,12 +258,19 @@ export async function runJobScrapingPipeline(searchQuery: string, location: stri
 /**
  * Schedule periodic job scraping (would be called by a cron job or scheduler)
  */
-export async function schedulePeriodicJobScraping(interval: number = 3600000): Promise<void> {
+export async function schedulePeriodicJobScraping(
+  interval: number = 3600000
+): Promise<void> {
   // This would typically be set up with node-cron or similar
   console.log(`Job scraping scheduled every ${interval}ms`);
 
   setInterval(async () => {
-    const popularSearches = ["software engineer", "data scientist", "product manager", "full stack developer"];
+    const popularSearches = [
+      "software engineer",
+      "data scientist",
+      "product manager",
+      "full stack developer",
+    ];
 
     for (const search of popularSearches) {
       await runJobScrapingPipeline(search, "");

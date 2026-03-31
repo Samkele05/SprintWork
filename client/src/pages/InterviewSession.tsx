@@ -30,10 +30,14 @@ const SAMPLE_QUESTIONS = {
 
 export default function InterviewSession() {
   const { user } = useAuth();
-  const [interviewType, setInterviewType] = useState<"behavioral" | "technical" | "general">("behavioral");
+  const [interviewType, setInterviewType] = useState<
+    "behavioral" | "technical" | "general"
+  >("behavioral");
   const [sessionStarted, setSessionStarted] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState<string>("");
-  const [answers, setAnswers] = useState<Array<{ question: string; answer: string; feedback?: string }>>([]);
+  const [answers, setAnswers] = useState<
+    Array<{ question: string; answer: string; feedback?: string }>
+  >([]);
   const [currentAnswer, setCurrentAnswer] = useState("");
   const [isRecording, setIsRecording] = useState(false);
   const [cameraOn, setCameraOn] = useState(false);
@@ -43,7 +47,8 @@ export default function InterviewSession() {
 
   const createInterviewMutation = trpc.mockInterviews.create.useMutation();
   const submitAnswerMutation = trpc.mockInterviews.submitAnswer.useMutation();
-  const completeInterviewMutation = trpc.mockInterviews.completeInterview.useMutation();
+  const completeInterviewMutation =
+    trpc.mockInterviews.completeInterview.useMutation();
 
   const startInterview = async () => {
     try {
@@ -112,7 +117,9 @@ export default function InterviewSession() {
   const toggleCamera = async () => {
     if (!cameraOn) {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+        });
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
         }
@@ -124,7 +131,7 @@ export default function InterviewSession() {
     } else {
       if (videoRef.current?.srcObject) {
         const tracks = (videoRef.current.srcObject as MediaStream).getTracks();
-        tracks.forEach((track) => track.stop());
+        tracks.forEach(track => track.stop());
       }
       setCameraOn(false);
     }
@@ -146,12 +153,16 @@ export default function InterviewSession() {
           <h1 className="text-3xl font-bold mb-8">Mock Interview</h1>
 
           <Card className="p-8">
-            <h2 className="text-2xl font-semibold mb-6">Start a Practice Interview</h2>
+            <h2 className="text-2xl font-semibold mb-6">
+              Start a Practice Interview
+            </h2>
 
             <div className="mb-6">
-              <label className="block text-sm font-medium mb-3">Interview Type</label>
+              <label className="block text-sm font-medium mb-3">
+                Interview Type
+              </label>
               <div className="grid grid-cols-3 gap-4">
-                {(["behavioral", "technical", "general"] as const).map((type) => (
+                {(["behavioral", "technical", "general"] as const).map(type => (
                   <button
                     key={type}
                     onClick={() => setInterviewType(type)}
@@ -178,8 +189,15 @@ export default function InterviewSession() {
               </p>
             </div>
 
-            <Button onClick={startInterview} size="lg" className="w-full" disabled={createInterviewMutation.isPending}>
-              {createInterviewMutation.isPending ? "Starting..." : "Start Interview"}
+            <Button
+              onClick={startInterview}
+              size="lg"
+              className="w-full"
+              disabled={createInterviewMutation.isPending}
+            >
+              {createInterviewMutation.isPending
+                ? "Starting..."
+                : "Start Interview"}
             </Button>
           </Card>
         </div>
@@ -215,7 +233,11 @@ export default function InterviewSession() {
               onClick={toggleCamera}
               className="flex items-center gap-2"
             >
-              {cameraOn ? <Video className="w-4 h-4" /> : <VideoOff className="w-4 h-4" />}
+              {cameraOn ? (
+                <Video className="w-4 h-4" />
+              ) : (
+                <VideoOff className="w-4 h-4" />
+              )}
               {cameraOn ? "Camera On" : "Camera Off"}
             </Button>
             <Button
@@ -224,22 +246,35 @@ export default function InterviewSession() {
               onClick={toggleMicrophone}
               className="flex items-center gap-2"
             >
-              {isRecording ? <Mic className="w-4 h-4" /> : <MicOff className="w-4 h-4" />}
+              {isRecording ? (
+                <Mic className="w-4 h-4" />
+              ) : (
+                <MicOff className="w-4 h-4" />
+              )}
               {isRecording ? "Recording" : "Microphone"}
             </Button>
           </div>
-          {cameraOn && <video ref={videoRef} autoPlay muted className="w-full mt-4 rounded-lg bg-black" />}
+          {cameraOn && (
+            <video
+              ref={videoRef}
+              autoPlay
+              muted
+              className="w-full mt-4 rounded-lg bg-black"
+            />
+          )}
         </Card>
 
         <Card className="p-6 mb-8">
-          <h2 className="text-xl font-semibold mb-4">Question {questionIndex + 1}</h2>
+          <h2 className="text-xl font-semibold mb-4">
+            Question {questionIndex + 1}
+          </h2>
           <p className="text-lg text-gray-800 mb-6">{currentQuestion}</p>
 
           <label className="block text-sm font-medium mb-2">Your Answer</label>
           <Textarea
             placeholder="Type your answer here..."
             value={currentAnswer}
-            onChange={(e) => setCurrentAnswer(e.target.value)}
+            onChange={e => setCurrentAnswer(e.target.value)}
             className="mb-4 min-h-[150px]"
           />
 
@@ -266,10 +301,16 @@ export default function InterviewSession() {
               {answers.map((item, idx) => (
                 <div key={idx} className="p-4 bg-gray-50 rounded-lg border">
                   <div className="mb-2">
-                    <p className="font-medium">Q{idx + 1}: {item.question.substring(0, 50)}...</p>
+                    <p className="font-medium">
+                      Q{idx + 1}: {item.question.substring(0, 50)}...
+                    </p>
                   </div>
                   <p className="text-sm text-gray-700 mb-2">{item.answer}</p>
-                  {item.feedback && <p className="text-sm text-gray-600 italic">{item.feedback}</p>}
+                  {item.feedback && (
+                    <p className="text-sm text-gray-600 italic">
+                      {item.feedback}
+                    </p>
+                  )}
                 </div>
               ))}
             </div>

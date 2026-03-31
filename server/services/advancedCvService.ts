@@ -1,7 +1,5 @@
 import { invokeLLM } from "../_core/llm";
 
-
-
 interface CVAnalysisResult {
   atsScore: number;
   keywordMatches: string[];
@@ -43,13 +41,13 @@ export const advancedCvService = {
 
     // Find matching keywords in CV
     const cvLower = cvContent.toLowerCase();
-    const keywordMatches = allKeywords.filter((keyword) =>
+    const keywordMatches = allKeywords.filter(keyword =>
       cvLower.includes(keyword.toLowerCase())
     );
 
     // Identify missing keywords
     const missingKeywords = allKeywords.filter(
-      (keyword) => !cvLower.includes(keyword.toLowerCase())
+      keyword => !cvLower.includes(keyword.toLowerCase())
     );
 
     // Calculate ATS score (0-100)
@@ -160,11 +158,8 @@ Return only the enhanced bullet points, numbered, with no explanations.`;
    * Calculate ATS compatibility score (0-100)
    * Considers keyword density, formatting, structure, and content
    */
-  calculateATSScore(
-    cvContent: string,
-    jobDescription: JobDescription
-  ): number {
-    const keywordMatches = jobDescription.requiredSkills.filter((skill) =>
+  calculateATSScore(cvContent: string, jobDescription: JobDescription): number {
+    const keywordMatches = jobDescription.requiredSkills.filter(skill =>
       cvContent.toLowerCase().includes(skill.toLowerCase())
     );
 
@@ -182,8 +177,9 @@ Return only the enhanced bullet points, numbered, with no explanations.`;
     const hasContactInfo =
       /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/.test(cvContent);
     const hasPhoneNumber = /\b\d{3}[-.]?\d{3}[-.]?\d{4}\b/.test(cvContent);
-    const hasExperienceSection =
-      /experience|employment|work history/i.test(cvContent);
+    const hasExperienceSection = /experience|employment|work history/i.test(
+      cvContent
+    );
     const hasSkillsSection = /skills|competencies/i.test(cvContent);
 
     if (hasContactInfo) structureScore += 5;
@@ -191,7 +187,10 @@ Return only the enhanced bullet points, numbered, with no explanations.`;
     if (hasExperienceSection) structureScore += 10;
     if (hasSkillsSection) structureScore += 10;
 
-    return Math.min(100, Math.round(keywordScore + formatScore + structureScore));
+    return Math.min(
+      100,
+      Math.round(keywordScore + formatScore + structureScore)
+    );
   },
 };
 
@@ -202,7 +201,7 @@ function extractKeywordsFromDescription(description: string): string[] {
   const words = description
     .toLowerCase()
     .split(/\s+/)
-    .filter((word) => word.length > 4);
+    .filter(word => word.length > 4);
 
   // Remove common stop words
   const stopWords = new Set([
@@ -230,9 +229,7 @@ function extractKeywordsFromDescription(description: string): string[] {
     "also",
   ]);
 
-  return words.filter(
-    (word) => !stopWords.has(word) && word.length > 4
-  );
+  return words.filter(word => !stopWords.has(word) && word.length > 4);
 }
 
 /**
@@ -291,7 +288,9 @@ function generateATSSuggestions(
   }
 
   if (!cvContent.includes("•") && !cvContent.includes("-")) {
-    suggestions.push("Use bullet points for better readability and ATS parsing.");
+    suggestions.push(
+      "Use bullet points for better readability and ATS parsing."
+    );
   }
 
   if (!/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/.test(cvContent)) {

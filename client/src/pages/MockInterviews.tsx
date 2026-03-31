@@ -25,11 +25,18 @@ export default function MockInterviews() {
         <h1 className="text-3xl font-bold mb-8">Mock Interviews</h1>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          {["behavioral", "technical", "case_study", "general"].map((type) => (
+          {["behavioral", "technical", "case_study", "general"].map(type => (
             <Card key={type} className="p-6">
-              <h3 className="text-lg font-semibold mb-4 capitalize">{type} Interview</h3>
-              <p className="text-gray-600 mb-4">Practice your {type} interview skills</p>
-              <Button onClick={() => handleStartInterview(type)} className="w-full">
+              <h3 className="text-lg font-semibold mb-4 capitalize">
+                {type} Interview
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Practice your {type} interview skills
+              </p>
+              <Button
+                onClick={() => handleStartInterview(type)}
+                className="w-full"
+              >
                 Start Interview
               </Button>
             </Card>
@@ -41,9 +48,15 @@ export default function MockInterviews() {
           <div className="space-y-3">
             {interviews?.map((interview: any) => (
               <div key={interview.id} className="p-4 border rounded-lg">
-                <h3 className="font-semibold capitalize">{interview.interviewType}</h3>
-                <p className="text-sm text-gray-600">Score: {interview.score || "N/A"}</p>
-                <p className="text-sm text-gray-600">Status: {interview.status}</p>
+                <h3 className="font-semibold capitalize">
+                  {interview.interviewType}
+                </h3>
+                <p className="text-sm text-gray-600">
+                  Score: {interview.score || "N/A"}
+                </p>
+                <p className="text-sm text-gray-600">
+                  Status: {interview.status}
+                </p>
               </div>
             ))}
           </div>

@@ -124,7 +124,9 @@ export const advancedJobMatchingService = {
     jobs: JobOpportunity[],
     topN: number = 10
   ): Promise<MatchResult[]> {
-    const matches = await Promise.all(jobs.map((job) => this.calculateMatchScore(userProfile, job)));
+    const matches = await Promise.all(
+      jobs.map(job => this.calculateMatchScore(userProfile, job))
+    );
 
     return matches.sort((a, b) => b.match_score - a.match_score).slice(0, topN);
   },
@@ -133,11 +135,11 @@ export const advancedJobMatchingService = {
    * Identify skill gaps for a specific job
    */
   identifySkillGaps(userProfile: UserProfile, job: JobOpportunity): string[] {
-    const userSkillsLower = userProfile.skills.map((s) => s.toLowerCase());
-    const requiredSkillsLower = job.required_skills.map((s) => s.toLowerCase());
+    const userSkillsLower = userProfile.skills.map(s => s.toLowerCase());
+    const requiredSkillsLower = job.required_skills.map(s => s.toLowerCase());
 
     return requiredSkillsLower.filter(
-      (skill) => !userSkillsLower.includes(skill)
+      skill => !userSkillsLower.includes(skill)
     );
   },
 
@@ -175,16 +177,8 @@ export const advancedJobMatchingService = {
         "Grokking the System Design Interview",
         "ByteByteGo",
       ],
-      sql: [
-        "SQLZoo",
-        "Mode Analytics SQL Tutorial",
-        "Codecademy SQL",
-      ],
-      aws: [
-        "AWS Free Tier",
-        "A Cloud Guru",
-        "Linux Academy AWS",
-      ],
+      sql: ["SQLZoo", "Mode Analytics SQL Tutorial", "Codecademy SQL"],
+      aws: ["AWS Free Tier", "A Cloud Guru", "Linux Academy AWS"],
       docker: [
         "Docker Official Docs",
         "Play with Docker",
@@ -195,11 +189,7 @@ export const advancedJobMatchingService = {
         "Katacoda Kubernetes",
         "Linux Academy Kubernetes",
       ],
-      "machine learning": [
-        "Fast.ai",
-        "Andrew Ng's ML Course",
-        "Kaggle Learn",
-      ],
+      "machine learning": ["Fast.ai", "Andrew Ng's ML Course", "Kaggle Learn"],
     };
 
     for (const gap of skillGaps) {
@@ -224,21 +214,21 @@ function calculateSkillMatch(
   userSkills: string[],
   job: JobOpportunity
 ): number {
-  const userSkillsSet = new Set(userSkills.map((s) => s.toLowerCase()));
+  const userSkillsSet = new Set(userSkills.map(s => s.toLowerCase()));
   const requiredSkillsSet = new Set(
-    job.required_skills.map((s) => s.toLowerCase())
+    job.required_skills.map(s => s.toLowerCase())
   );
   const preferredSkillsSet = new Set(
-    job.preferred_skills.map((s) => s.toLowerCase())
+    job.preferred_skills.map(s => s.toLowerCase())
   );
 
   // Calculate intersection with required skills
-  const requiredIntersection = Array.from(requiredSkillsSet).filter((skill) =>
+  const requiredIntersection = Array.from(requiredSkillsSet).filter(skill =>
     userSkillsSet.has(skill)
   ).length;
 
   // Calculate intersection with preferred skills
-  const preferredIntersection = Array.from(preferredSkillsSet).filter((skill) =>
+  const preferredIntersection = Array.from(preferredSkillsSet).filter(skill =>
     userSkillsSet.has(skill)
   ).length;
 
@@ -294,7 +284,9 @@ function calculateLocationMatch(
   }
 
   // Partial match for same country/region
-  const userCountries = preferredLocations.map((loc) => loc.split(",")[1]?.trim() || loc);
+  const userCountries = preferredLocations.map(
+    loc => loc.split(",")[1]?.trim() || loc
+  );
   const jobCountry = jobLocation.split(",")[1]?.trim() || jobLocation;
 
   if (userCountries.includes(jobCountry)) {
@@ -351,7 +343,7 @@ function calculateIndustryMatch(
     marketing: ["advertising", "pr", "communications", "media"],
   };
 
-  const userIndustriesLower = userIndustries.map((i) => i.toLowerCase());
+  const userIndustriesLower = userIndustries.map(i => i.toLowerCase());
   const jobIndustryLower = jobIndustry.toLowerCase();
 
   for (const [category, related] of Object.entries(relatedIndustries)) {
@@ -378,7 +370,6 @@ async function generateMatchReasoning(
   salaryScore: number,
   industryScore: number
 ): Promise<string> {
-
   const reasons: string[] = [];
 
   if (skillScore >= 80) {

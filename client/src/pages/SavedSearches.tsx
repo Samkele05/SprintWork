@@ -16,7 +16,9 @@ export default function SavedSearches() {
               <div className="flex justify-between items-start">
                 <div>
                   <h3 className="text-lg font-semibold">{search.name}</h3>
-                  <p className="text-gray-600">Alert: {search.alertFrequency}</p>
+                  <p className="text-gray-600">
+                    Alert: {search.alertFrequency}
+                  </p>
                 </div>
                 <Button variant="outline">View Results</Button>
               </div>

@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { Loader2 } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 /**
  * OAuth Callback Handler
@@ -17,7 +23,11 @@ export default function OAuthCallback() {
       try {
         // Extract provider from URL path
         const pathMatch = location.match(/\/oauth\/callback\/(\w+)/);
-        const provider = pathMatch?.[1] as "google" | "github" | "linkedin" | undefined;
+        const provider = pathMatch?.[1] as
+          | "google"
+          | "github"
+          | "linkedin"
+          | undefined;
 
         if (!provider) {
           setError("Invalid callback URL");
@@ -56,7 +66,9 @@ export default function OAuthCallback() {
 
         if (!response.ok) {
           const errorData = await response.json();
-          setError(errorData.message || `Authentication failed: ${response.statusText}`);
+          setError(
+            errorData.message || `Authentication failed: ${response.statusText}`
+          );
           return;
         }
 
@@ -70,7 +82,11 @@ export default function OAuthCallback() {
         }, 1000);
       } catch (err) {
         console.error("OAuth callback error:", err);
-        setError(err instanceof Error ? err.message : "An error occurred during authentication");
+        setError(
+          err instanceof Error
+            ? err.message
+            : "An error occurred during authentication"
+        );
       }
     };
 
@@ -88,7 +104,9 @@ export default function OAuthCallback() {
         <CardContent className="flex flex-col items-center justify-center py-8">
           {error ? (
             <div className="text-center space-y-4">
-              <div className="text-red-600 font-semibold">Authentication Failed</div>
+              <div className="text-red-600 font-semibold">
+                Authentication Failed
+              </div>
               <p className="text-sm text-gray-600">{error}</p>
               <button
                 onClick={() => (window.location.href = "/")}

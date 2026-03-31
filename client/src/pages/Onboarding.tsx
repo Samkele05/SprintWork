@@ -9,7 +9,9 @@ import { toast } from "sonner";
 
 export default function Onboarding() {
   const [step, setStep] = useState(1);
-  const [userType, setUserType] = useState<"job_seeker" | "recruiter">("job_seeker");
+  const [userType, setUserType] = useState<"job_seeker" | "recruiter">(
+    "job_seeker"
+  );
   const [, navigate] = useLocation();
   const [formData, setFormData] = useState({
     headline: "",
@@ -76,7 +78,9 @@ export default function Onboarding() {
                 >
                   <div className="text-2xl mb-2">🔍</div>
                   <h3 className="font-semibold">Job Seeker</h3>
-                  <p className="text-sm text-gray-600">Find your next opportunity</p>
+                  <p className="text-sm text-gray-600">
+                    Find your next opportunity
+                  </p>
                 </button>
                 <button
                   onClick={() => setUserType("recruiter")}
@@ -100,7 +104,9 @@ export default function Onboarding() {
         ) : (
           <div className="space-y-6">
             <h2 className="text-xl font-semibold">
-              {userType === "job_seeker" ? "Tell us about yourself" : "Tell us about your company"}
+              {userType === "job_seeker"
+                ? "Tell us about yourself"
+                : "Tell us about your company"}
             </h2>
 
             {userType === "job_seeker" ? (
@@ -110,7 +116,9 @@ export default function Onboarding() {
                   <Input
                     placeholder="e.g., Full Stack Developer"
                     value={formData.headline}
-                    onChange={(e) => setFormData({ ...formData, headline: e.target.value })}
+                    onChange={e =>
+                      setFormData({ ...formData, headline: e.target.value })
+                    }
                   />
                 </div>
                 <div>
@@ -118,7 +126,9 @@ export default function Onboarding() {
                   <Input
                     placeholder="e.g., Senior Developer"
                     value={formData.currentRole}
-                    onChange={(e) => setFormData({ ...formData, currentRole: e.target.value })}
+                    onChange={e =>
+                      setFormData({ ...formData, currentRole: e.target.value })
+                    }
                   />
                 </div>
                 <div>
@@ -127,8 +137,11 @@ export default function Onboarding() {
                     type="number"
                     placeholder="5"
                     value={formData.yearsExperience}
-                    onChange={(e) =>
-                      setFormData({ ...formData, yearsExperience: parseInt(e.target.value) })
+                    onChange={e =>
+                      setFormData({
+                        ...formData,
+                        yearsExperience: parseInt(e.target.value),
+                      })
                     }
                   />
                 </div>
@@ -140,7 +153,9 @@ export default function Onboarding() {
                   <Input
                     placeholder="Your company name"
                     value={formData.companyName}
-                    onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
+                    onChange={e =>
+                      setFormData({ ...formData, companyName: e.target.value })
+                    }
                   />
                 </div>
                 <div>
@@ -148,17 +163,31 @@ export default function Onboarding() {
                   <Input
                     placeholder="e.g., Hiring Manager"
                     value={formData.jobTitle}
-                    onChange={(e) => setFormData({ ...formData, jobTitle: e.target.value })}
+                    onChange={e =>
+                      setFormData({ ...formData, jobTitle: e.target.value })
+                    }
                   />
                 </div>
               </>
             )}
 
             <div className="flex gap-4">
-              <Button variant="outline" onClick={() => setStep(1)} className="flex-1">
+              <Button
+                variant="outline"
+                onClick={() => setStep(1)}
+                className="flex-1"
+              >
                 Back
               </Button>
-              <Button onClick={handleNext} className="flex-1" disabled={switchUserTypeMutation.isPending || jobSeekerMutation.isPending || recruiterMutation.isPending}>
+              <Button
+                onClick={handleNext}
+                className="flex-1"
+                disabled={
+                  switchUserTypeMutation.isPending ||
+                  jobSeekerMutation.isPending ||
+                  recruiterMutation.isPending
+                }
+              >
                 Complete Setup
               </Button>
             </div>

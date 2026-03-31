@@ -14,7 +14,10 @@ import { ENV } from "./env";
  * Manus OAuth openIds (which are UUIDs from the platform).
  */
 function generateLocalOpenId(email: string): string {
-  const sanitized = email.replace(/[^a-z0-9]/gi, "").toLowerCase().slice(0, 20);
+  const sanitized = email
+    .replace(/[^a-z0-9]/gi, "")
+    .toLowerCase()
+    .slice(0, 20);
   const rand = Math.random().toString(36).slice(2, 10);
   return `local_${sanitized}_${rand}`;
 }
@@ -58,7 +61,9 @@ export function registerEmailAuthRoutes(app: Express) {
         .limit(1);
 
       if (existing.length > 0) {
-        res.status(409).json({ error: "An account with this email already exists. Please sign in." });
+        res.status(409).json({
+          error: "An account with this email already exists. Please sign in.",
+        });
         return;
       }
 
@@ -81,7 +86,10 @@ export function registerEmailAuthRoutes(app: Express) {
       });
 
       const cookieOptions = getSessionCookieOptions(req);
-      res.cookie(COOKIE_NAME, sessionToken, { ...cookieOptions, maxAge: ONE_YEAR_MS });
+      res.cookie(COOKIE_NAME, sessionToken, {
+        ...cookieOptions,
+        maxAge: ONE_YEAR_MS,
+      });
 
       res.json({ success: true, message: "Account created successfully" });
     } catch (error) {
@@ -130,7 +138,8 @@ export function registerEmailAuthRoutes(app: Express) {
       if (!user.passwordHash) {
         // Account exists but was created via OAuth — no password set
         res.status(401).json({
-          error: "This account uses a different sign-in method. Please use the original provider.",
+          error:
+            "This account uses a different sign-in method. Please use the original provider.",
         });
         return;
       }
@@ -153,7 +162,10 @@ export function registerEmailAuthRoutes(app: Express) {
       });
 
       const cookieOptions = getSessionCookieOptions(req);
-      res.cookie(COOKIE_NAME, sessionToken, { ...cookieOptions, maxAge: ONE_YEAR_MS });
+      res.cookie(COOKIE_NAME, sessionToken, {
+        ...cookieOptions,
+        maxAge: ONE_YEAR_MS,
+      });
 
       res.json({ success: true, message: "Signed in successfully" });
     } catch (error) {

@@ -39,7 +39,9 @@ export default function CVBuilder() {
               <Input
                 placeholder="e.g., Senior Developer Resume"
                 value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, title: e.target.value })
+                }
               />
             </div>
 
@@ -48,7 +50,7 @@ export default function CVBuilder() {
               <Textarea
                 placeholder="Write a brief summary about yourself..."
                 value={formData.content.summary}
-                onChange={(e) =>
+                onChange={e =>
                   setFormData({
                     ...formData,
                     content: { ...formData.content, summary: e.target.value },

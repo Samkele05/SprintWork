@@ -80,18 +80,14 @@ describe("Resume Management", () => {
 
     // Test serialization logic
     const serialized =
-      typeof contentObj === "string"
-        ? contentObj
-        : JSON.stringify(contentObj);
+      typeof contentObj === "string" ? contentObj : JSON.stringify(contentObj);
 
     expect(typeof serialized).toBe("string");
     expect(serialized).toContain("Test summary");
 
     // Test deserialization logic
     const deserialized =
-      typeof serialized === "string"
-        ? JSON.parse(serialized)
-        : serialized;
+      typeof serialized === "string" ? JSON.parse(serialized) : serialized;
 
     expect(deserialized.summary).toBe("Test summary");
     expect(deserialized.skills).toContain("React");
@@ -111,9 +107,7 @@ describe("Resume Management", () => {
     expect(typeof serialized).toBe("string");
 
     const deserialized =
-      typeof serialized === "string"
-        ? JSON.parse(serialized)
-        : serialized;
+      typeof serialized === "string" ? JSON.parse(serialized) : serialized;
 
     expect(deserialized.summary).toBe("Already serialized");
   });

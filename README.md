@@ -6,20 +6,21 @@
 
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
+| Layer        | Technology                                                    |
+| ------------ | ------------------------------------------------------------- |
 | **Frontend** | React 19, TypeScript, Vite 7, TailwindCSS 4, Radix UI, Wouter |
-| **Backend** | Node.js, Express, tRPC 11 |
-| **Database** | MySQL / TiDB (via Drizzle ORM) |
-| **Auth** | OAuth (Google, GitHub, LinkedIn) + JWT sessions |
-| **AI/LLM** | OpenAI-compatible API (Gemini 2.5 Flash) |
-| **Testing** | Vitest |
+| **Backend**  | Node.js, Express, tRPC 11                                     |
+| **Database** | MySQL / TiDB (via Drizzle ORM)                                |
+| **Auth**     | OAuth (Google, GitHub, LinkedIn) + JWT sessions               |
+| **AI/LLM**   | OpenAI-compatible API (Gemini 2.5 Flash)                      |
+| **Testing**  | Vitest                                                        |
 
 ---
 
 ## Features
 
 ### For Job Seekers
+
 - **AI CV Tailoring** — Automatically tailor your resume to match job postings with ATS optimization
 - **Mock Interviews** — Practice behavioral, technical, case study, and general interviews with AI feedback and scoring
 - **Smart Job Matching** — ML-powered job recommendations based on your profile and skills
@@ -30,12 +31,14 @@
 - **Saved Searches** — Save job search queries with alert notifications
 
 ### For Recruiters
+
 - **Post Jobs** — Create and publish job listings with full details
 - **Candidate Management** — Review applications and evaluate candidates
 - **Recruiter Dashboard** — Track hiring funnel and job posting metrics
 - **Direct Messaging** — Communicate with candidates directly
 
 ### Platform
+
 - OAuth login (Google, GitHub, LinkedIn, Manus)
 - Light/Dark mode
 - Fully responsive (mobile-first)
@@ -46,6 +49,7 @@
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js 18+
 - pnpm 10+
 - MySQL or TiDB database
@@ -134,26 +138,26 @@ SprintWork/
 
 ## Application Routes
 
-| Route | Description |
-|---|---|
-| `/` | Landing page |
-| `/login` | OAuth login page |
-| `/onboarding` | Role selection and profile setup |
-| `/dashboard` | Job seeker dashboard |
-| `/recruiter-dashboard` | Recruiter dashboard |
-| `/job-search` | Job search with filters |
-| `/job/:id` | Job detail page |
-| `/applications` | Application tracker |
-| `/profile` | User profile management |
-| `/cv-builder` | Resume builder |
-| `/mock-interviews` | Interview practice |
-| `/interview/:id` | Live interview session |
-| `/networking` | Professional connections |
-| `/messages` | Direct messaging |
-| `/skill-development` | Courses and learning paths |
-| `/saved-searches` | Saved job searches |
-| `/recruiter/jobs` | Recruiter job management |
-| `/recruiter/post-job` | Post a new job |
+| Route                  | Description                      |
+| ---------------------- | -------------------------------- |
+| `/`                    | Landing page                     |
+| `/login`               | OAuth login page                 |
+| `/onboarding`          | Role selection and profile setup |
+| `/dashboard`           | Job seeker dashboard             |
+| `/recruiter-dashboard` | Recruiter dashboard              |
+| `/job-search`          | Job search with filters          |
+| `/job/:id`             | Job detail page                  |
+| `/applications`        | Application tracker              |
+| `/profile`             | User profile management          |
+| `/cv-builder`          | Resume builder                   |
+| `/mock-interviews`     | Interview practice               |
+| `/interview/:id`       | Live interview session           |
+| `/networking`          | Professional connections         |
+| `/messages`            | Direct messaging                 |
+| `/skill-development`   | Courses and learning paths       |
+| `/saved-searches`      | Saved job searches               |
+| `/recruiter/jobs`      | Recruiter job management         |
+| `/recruiter/post-job`  | Post a new job                   |
 
 ---
 
@@ -180,12 +184,14 @@ Messaging & Notifications
 ## Deployment
 
 ### Deploy to Vercel / Railway / Render
+
 1. Connect this GitHub repository
 2. Set the environment variables listed above
 3. Set build command: `pnpm build`
 4. Set start command: `pnpm start`
 
 ### Deploy to a VPS
+
 ```bash
 pnpm build
 NODE_ENV=production pnpm start

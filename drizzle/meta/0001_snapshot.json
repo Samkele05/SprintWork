@@ -109,23 +109,17 @@
       "indexes": {
         "application_userId_idx": {
           "name": "application_userId_idx",
-          "columns": [
-            "userId"
-          ],
+          "columns": ["userId"],
           "isUnique": false
         },
         "application_jobId_idx": {
           "name": "application_jobId_idx",
-          "columns": [
-            "jobId"
-          ],
+          "columns": ["jobId"],
           "isUnique": false
         },
         "application_status_idx": {
           "name": "application_status_idx",
-          "columns": [
-            "status"
-          ],
+          "columns": ["status"],
           "isUnique": false
         }
       },
@@ -133,9 +127,7 @@
       "compositePrimaryKeys": {
         "applications_id": {
           "name": "applications_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -215,16 +207,12 @@
       "indexes": {
         "connection_userId1_idx": {
           "name": "connection_userId1_idx",
-          "columns": [
-            "userId1"
-          ],
+          "columns": ["userId1"],
           "isUnique": false
         },
         "connection_userId2_idx": {
           "name": "connection_userId2_idx",
-          "columns": [
-            "userId2"
-          ],
+          "columns": ["userId2"],
           "isUnique": false
         }
       },
@@ -232,9 +220,7 @@
       "compositePrimaryKeys": {
         "connections_id": {
           "name": "connections_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -331,9 +317,7 @@
       "compositePrimaryKeys": {
         "courses_id": {
           "name": "courses_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -413,16 +397,12 @@
       "indexes": {
         "externalProfile_userId_idx": {
           "name": "externalProfile_userId_idx",
-          "columns": [
-            "userId"
-          ],
+          "columns": ["userId"],
           "isUnique": false
         },
         "externalProfile_platform_idx": {
           "name": "externalProfile_platform_idx",
-          "columns": [
-            "platform"
-          ],
+          "columns": ["platform"],
           "isUnique": false
         }
       },
@@ -430,9 +410,7 @@
       "compositePrimaryKeys": {
         "externalProfiles_id": {
           "name": "externalProfiles_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -518,23 +496,17 @@
       "indexes": {
         "jobMatch_userId_idx": {
           "name": "jobMatch_userId_idx",
-          "columns": [
-            "userId"
-          ],
+          "columns": ["userId"],
           "isUnique": false
         },
         "jobMatch_jobId_idx": {
           "name": "jobMatch_jobId_idx",
-          "columns": [
-            "jobId"
-          ],
+          "columns": ["jobId"],
           "isUnique": false
         },
         "jobMatch_matchScore_idx": {
           "name": "jobMatch_matchScore_idx",
-          "columns": [
-            "matchScore"
-          ],
+          "columns": ["matchScore"],
           "isUnique": false
         }
       },
@@ -542,9 +514,7 @@
       "compositePrimaryKeys": {
         "jobMatches_id": {
           "name": "jobMatches_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -652,9 +622,7 @@
       "indexes": {
         "jobSeeker_userId_idx": {
           "name": "jobSeeker_userId_idx",
-          "columns": [
-            "userId"
-          ],
+          "columns": ["userId"],
           "isUnique": false
         }
       },
@@ -662,17 +630,13 @@
       "compositePrimaryKeys": {
         "jobSeekerProfiles_id": {
           "name": "jobSeekerProfiles_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {
         "jobSeeker_userId_unique": {
           "name": "jobSeeker_userId_unique",
-          "columns": [
-            "userId"
-          ]
+          "columns": ["userId"]
         }
       },
       "checkConstraint": {}
@@ -815,16 +779,12 @@
       "indexes": {
         "job_company_idx": {
           "name": "job_company_idx",
-          "columns": [
-            "company"
-          ],
+          "columns": ["company"],
           "isUnique": false
         },
         "job_isActive_idx": {
           "name": "job_isActive_idx",
-          "columns": [
-            "isActive"
-          ],
+          "columns": ["isActive"],
           "isUnique": false
         }
       },
@@ -832,18 +792,13 @@
       "compositePrimaryKeys": {
         "jobs_id": {
           "name": "jobs_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {
         "job_sourceJobId_idx": {
           "name": "job_sourceJobId_idx",
-          "columns": [
-            "sourceJobId",
-            "source"
-          ]
+          "columns": ["sourceJobId", "source"]
         }
       },
       "checkConstraint": {}
@@ -906,16 +861,12 @@
       "indexes": {
         "message_senderId_idx": {
           "name": "message_senderId_idx",
-          "columns": [
-            "senderId"
-          ],
+          "columns": ["senderId"],
           "isUnique": false
         },
         "message_recipientId_idx": {
           "name": "message_recipientId_idx",
-          "columns": [
-            "recipientId"
-          ],
+          "columns": ["recipientId"],
           "isUnique": false
         }
       },
@@ -923,9 +874,7 @@
       "compositePrimaryKeys": {
         "messages_id": {
           "name": "messages_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -1041,16 +990,12 @@
       "indexes": {
         "mockInterview_userId_idx": {
           "name": "mockInterview_userId_idx",
-          "columns": [
-            "userId"
-          ],
+          "columns": ["userId"],
           "isUnique": false
         },
         "mockInterview_status_idx": {
           "name": "mockInterview_status_idx",
-          "columns": [
-            "status"
-          ],
+          "columns": ["status"],
           "isUnique": false
         }
       },
@@ -1058,9 +1003,7 @@
       "compositePrimaryKeys": {
         "mockInterviews_id": {
           "name": "mockInterviews_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -1176,16 +1119,12 @@
       "indexes": {
         "postedJob_recruiterId_idx": {
           "name": "postedJob_recruiterId_idx",
-          "columns": [
-            "recruiterId"
-          ],
+          "columns": ["recruiterId"],
           "isUnique": false
         },
         "postedJob_status_idx": {
           "name": "postedJob_status_idx",
-          "columns": [
-            "status"
-          ],
+          "columns": ["status"],
           "isUnique": false
         }
       },
@@ -1193,9 +1132,7 @@
       "compositePrimaryKeys": {
         "postedJobs_id": {
           "name": "postedJobs_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -1296,9 +1233,7 @@
       "indexes": {
         "recruiter_userId_idx": {
           "name": "recruiter_userId_idx",
-          "columns": [
-            "userId"
-          ],
+          "columns": ["userId"],
           "isUnique": false
         }
       },
@@ -1306,17 +1241,13 @@
       "compositePrimaryKeys": {
         "recruiterProfiles_id": {
           "name": "recruiterProfiles_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {
         "recruiter_userId_unique": {
           "name": "recruiter_userId_unique",
-          "columns": [
-            "userId"
-          ]
+          "columns": ["userId"]
         }
       },
       "checkConstraint": {}
@@ -1389,9 +1320,7 @@
       "indexes": {
         "resume_userId_idx": {
           "name": "resume_userId_idx",
-          "columns": [
-            "userId"
-          ],
+          "columns": ["userId"],
           "isUnique": false
         }
       },
@@ -1399,9 +1328,7 @@
       "compositePrimaryKeys": {
         "resumes_id": {
           "name": "resumes_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -1475,9 +1402,7 @@
       "indexes": {
         "savedSearch_userId_idx": {
           "name": "savedSearch_userId_idx",
-          "columns": [
-            "userId"
-          ],
+          "columns": ["userId"],
           "isUnique": false
         }
       },
@@ -1485,9 +1410,7 @@
       "compositePrimaryKeys": {
         "savedSearches_id": {
           "name": "savedSearches_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -1560,9 +1483,7 @@
       "indexes": {
         "skill_userId_idx": {
           "name": "skill_userId_idx",
-          "columns": [
-            "userId"
-          ],
+          "columns": ["userId"],
           "isUnique": false
         }
       },
@@ -1570,9 +1491,7 @@
       "compositePrimaryKeys": {
         "skills_id": {
           "name": "skills_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -1635,16 +1554,12 @@
       "indexes": {
         "tailoredResume_userId_idx": {
           "name": "tailoredResume_userId_idx",
-          "columns": [
-            "userId"
-          ],
+          "columns": ["userId"],
           "isUnique": false
         },
         "tailoredResume_jobId_idx": {
           "name": "tailoredResume_jobId_idx",
-          "columns": [
-            "jobId"
-          ],
+          "columns": ["jobId"],
           "isUnique": false
         }
       },
@@ -1652,9 +1567,7 @@
       "compositePrimaryKeys": {
         "tailoredResumes_id": {
           "name": "tailoredResumes_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -1735,16 +1648,12 @@
       "indexes": {
         "userCourseProgress_userId_idx": {
           "name": "userCourseProgress_userId_idx",
-          "columns": [
-            "userId"
-          ],
+          "columns": ["userId"],
           "isUnique": false
         },
         "userCourseProgress_courseId_idx": {
           "name": "userCourseProgress_courseId_idx",
-          "columns": [
-            "courseId"
-          ],
+          "columns": ["courseId"],
           "isUnique": false
         }
       },
@@ -1752,9 +1661,7 @@
       "compositePrimaryKeys": {
         "userCourseProgress_id": {
           "name": "userCourseProgress_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -1871,16 +1778,12 @@
       "indexes": {
         "email_idx": {
           "name": "email_idx",
-          "columns": [
-            "email"
-          ],
+          "columns": ["email"],
           "isUnique": false
         },
         "userType_idx": {
           "name": "userType_idx",
-          "columns": [
-            "userType"
-          ],
+          "columns": ["userType"],
           "isUnique": false
         }
       },
@@ -1888,23 +1791,17 @@
       "compositePrimaryKeys": {
         "users_id": {
           "name": "users_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {
         "users_openId_unique": {
           "name": "users_openId_unique",
-          "columns": [
-            "openId"
-          ]
+          "columns": ["openId"]
         },
         "users_email_unique": {
           "name": "users_email_unique",
-          "columns": [
-            "email"
-          ]
+          "columns": ["email"]
         }
       },
       "checkConstraint": {}

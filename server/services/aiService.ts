@@ -4,7 +4,11 @@ import { invokeLLM } from "../_core/llm";
  * AI Service - Handles all LLM-based operations for SprintWork
  */
 
-export async function tailorCVForJob(jobDescription: string, jobRequirements: string, resumeContent: any): Promise<string> {
+export async function tailorCVForJob(
+  jobDescription: string,
+  jobRequirements: string,
+  resumeContent: any
+): Promise<string> {
   const response = await invokeLLM({
     messages: [
       {
@@ -30,7 +34,11 @@ Return the tailored resume in JSON format with sections: summary, experience, sk
   return "";
 }
 
-export async function generateJobMatches(userProfile: any, userSkills: any[], jobListings: any[]): Promise<any[]> {
+export async function generateJobMatches(
+  userProfile: any,
+  userSkills: any[],
+  jobListings: any[]
+): Promise<any[]> {
   const response = await invokeLLM({
     messages: [
       {
@@ -61,7 +69,11 @@ Return a JSON array with: jobId, matchScore, matchReason, skillsMatched, skillsG
   }
 }
 
-export async function generateInterviewQuestion(interviewType: string, difficulty: string, jobDescription?: string): Promise<string> {
+export async function generateInterviewQuestion(
+  interviewType: string,
+  difficulty: string,
+  jobDescription?: string
+): Promise<string> {
   let systemPrompt = `You are an expert interview coach. Generate realistic and challenging interview questions for a ${difficulty} level ${interviewType} interview.`;
   let userPrompt = `Generate a single, thoughtful, open-ended ${difficulty} level ${interviewType} interview question.`;
 
@@ -98,7 +110,11 @@ export async function generateInterviewQuestion(interviewType: string, difficult
   return "";
 }
 
-export async function evaluateInterviewAnswer(question: string, answer: string, interviewType: string): Promise<{ score: number; feedback: string }> {
+export async function evaluateInterviewAnswer(
+  question: string,
+  answer: string,
+  interviewType: string
+): Promise<{ score: number; feedback: string }> {
   let systemPrompt = `You are an expert interview evaluator. Assess the candidate's answer to an interview question.`;
   let userPrompt = `Interview Type: ${interviewType}\nQuestion: ${question}\nCandidate Answer: ${answer}\n\nEvaluate this answer based on the following rubric and return a JSON object with 'score' (0-100) and 'feedback' (constructive comments):
 
@@ -144,15 +160,26 @@ Scoring Rubric:
 
   try {
     const content = response.choices[0]?.message?.content;
-    const contentStr = typeof content === "string" ? content : '{"score": 0, "feedback": "Unable to evaluate answer"}';
+    const contentStr =
+      typeof content === "string"
+        ? content
+        : '{"score": 0, "feedback": "Unable to evaluate answer"}';
     return JSON.parse(contentStr);
   } catch (error) {
     console.error("Failed to evaluate interview answer:", error);
-    return { score: 0, feedback: "Unable to evaluate answer due to processing error." };
+    return {
+      score: 0,
+      feedback: "Unable to evaluate answer due to processing error.",
+    };
   }
 }
 
-export async function generateInterviewFeedback(transcript: any[]): Promise<{ overallScore: number; strengths: string[]; improvements: string[]; recommendations: string[] }> {
+export async function generateInterviewFeedback(transcript: any[]): Promise<{
+  overallScore: number;
+  strengths: string[];
+  improvements: string[];
+  recommendations: string[];
+}> {
   const response = await invokeLLM({
     messages: [
       {
@@ -175,14 +202,29 @@ Return JSON with: overallScore, strengths (array), improvements (array), recomme
 
   try {
     const content = response.choices[0]?.message?.content;
-    const contentStr = typeof content === "string" ? content : '{"overallScore": 0, "strengths": [], "improvements": [], "recommendations": []}';
+    const contentStr =
+      typeof content === "string"
+        ? content
+        : '{"overallScore": 0, "strengths": [], "improvements": [], "recommendations": []}';
     return JSON.parse(contentStr);
   } catch {
-    return { overallScore: 0, strengths: [], improvements: [], recommendations: [] };
+    return {
+      overallScore: 0,
+      strengths: [],
+      improvements: [],
+      recommendations: [],
+    };
   }
 }
 
-export async function analyzeSkillGaps(userSkills: any[], jobRequirements: string): Promise<{ requiredSkills: string[]; skillGaps: string[]; developmentPlan: string[] }> {
+export async function analyzeSkillGaps(
+  userSkills: any[],
+  jobRequirements: string
+): Promise<{
+  requiredSkills: string[];
+  skillGaps: string[];
+  developmentPlan: string[];
+}> {
   const response = await invokeLLM({
     messages: [
       {
@@ -204,14 +246,21 @@ Return JSON with: requiredSkills (array), skillGaps (array), developmentPlan (ar
 
   try {
     const content = response.choices[0]?.message?.content;
-    const contentStr = typeof content === "string" ? content : '{"requiredSkills": [], "skillGaps": [], "developmentPlan": []}';
+    const contentStr =
+      typeof content === "string"
+        ? content
+        : '{"requiredSkills": [], "skillGaps": [], "developmentPlan": []}';
     return JSON.parse(contentStr);
   } catch {
     return { requiredSkills: [], skillGaps: [], developmentPlan: [] };
   }
 }
 
-export async function generateCoverLetter(userProfile: any, jobDescription: string, jobRequirements: string): Promise<string> {
+export async function generateCoverLetter(
+  userProfile: any,
+  jobDescription: string,
+  jobRequirements: string
+): Promise<string> {
   const response = await invokeLLM({
     messages: [
       {
@@ -237,7 +286,11 @@ Write in professional, engaging tone.`,
   return "";
 }
 
-export async function generateCareerAdvice(userProfile: any, userSkills: any[], careerGoals: string): Promise<string> {
+export async function generateCareerAdvice(
+  userProfile: any,
+  userSkills: any[],
+  careerGoals: string
+): Promise<string> {
   const response = await invokeLLM({
     messages: [
       {

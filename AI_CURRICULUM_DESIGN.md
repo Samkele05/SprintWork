@@ -8,12 +8,12 @@ This document outlines the theoretical framework and algorithmic logic for the A
 
 SprintWork follows a research-backed 4-stage framework for career development:
 
-| Stage | Goal | AI Feature |
-|---|---|---|
+| Stage       | Goal                                 | AI Feature                              |
+| ----------- | ------------------------------------ | --------------------------------------- |
 | **Explore** | Identify career paths and skill gaps | Smart Job Matching & Skill Gap Analysis |
-| **Build** | Create professional assets | AI CV Tailoring & Resume Builder |
-| **Connect** | Build professional network | Networking Hub & Recruiter Matching |
-| **Refine** | Master interview and soft skills | AI Mock Interviews & Scoring |
+| **Build**   | Create professional assets           | AI CV Tailoring & Resume Builder        |
+| **Connect** | Build professional network           | Networking Hub & Recruiter Matching     |
+| **Refine**  | Master interview and soft skills     | AI Mock Interviews & Scoring            |
 
 ---
 
@@ -22,6 +22,7 @@ SprintWork follows a research-backed 4-stage framework for career development:
 The interview curriculum is divided into four specialized tracks, each with a structured progression:
 
 ### A. Behavioral Track (STAR Method)
+
 - **Focus:** Soft skills, leadership, conflict resolution.
 - **Curriculum:**
   1. **Foundations:** Introduction to the STAR method.
@@ -31,6 +32,7 @@ The interview curriculum is divided into four specialized tracks, each with a st
 - **Algorithm:** AI evaluates responses based on the presence of **Situation, Task, Action, and Result** components.
 
 ### B. Technical Track (DSA & System Design)
+
 - **Focus:** Problem-solving, coding proficiency, architecture.
 - **Curriculum:**
   1. **Data Structures:** Arrays, Linked Lists, Trees, Graphs.
@@ -39,6 +41,7 @@ The interview curriculum is divided into four specialized tracks, each with a st
 - **Algorithm:** AI checks for technical accuracy, time/space complexity analysis, and edge case handling.
 
 ### C. Case Study Track
+
 - **Focus:** Analytical thinking, business logic.
 - **Curriculum:**
   1. **Market Entry:** Analyzing new business opportunities.
@@ -50,6 +53,7 @@ The interview curriculum is divided into four specialized tracks, each with a st
 ## 3. Core Algorithms
 
 ### A. Smart Job Matching Algorithm (Hybrid Approach)
+
 The matching score ($S$) is calculated as a weighted sum of multiple factors:
 
 $$S = w_1 \cdot S_{skills} + w_2 \cdot S_{experience} + w_3 \cdot S_{location} + w_4 \cdot S_{salary}$$
@@ -60,6 +64,7 @@ $$S = w_1 \cdot S_{skills} + w_2 \cdot S_{experience} + w_3 \cdot S_{location} +
 - **$S_{salary}$:** Overlap between user expectations and job budget.
 
 ### B. AI CV Tailoring Algorithm
+
 1. **Extraction:** Use LLM to extract key requirements (Skills, Keywords, Responsibilities) from a job description.
 2. **Analysis:** Compare extracted keywords with the user's current resume.
 3. **Optimization:**
@@ -68,6 +73,7 @@ $$S = w_1 \cdot S_{skills} + w_2 \cdot S_{experience} + w_3 \cdot S_{location} +
    - **Quantification:** Prompt user to add metrics (e.g., "Increased sales by 20%").
 
 ### C. Interview Scoring Rubric (0-100)
+
 - **Content (40%):** Accuracy, relevance, and depth of the answer.
 - **Structure (30%):** Use of STAR method or logical flow.
 - **Communication (20%):** Clarity, tone, and professional language.

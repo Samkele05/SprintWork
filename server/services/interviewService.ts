@@ -92,7 +92,9 @@ export async function generateBehavioralQuestion(
   difficulty: "easy" | "medium" | "hard",
   topic?: string
 ): Promise<InterviewQuestion> {
-  const selectedTopic = topic || BEHAVIORAL_TOPICS[Math.floor(Math.random() * BEHAVIORAL_TOPICS.length)];
+  const selectedTopic =
+    topic ||
+    BEHAVIORAL_TOPICS[Math.floor(Math.random() * BEHAVIORAL_TOPICS.length)];
 
   const response = await invokeLLM({
     messages: [
@@ -149,9 +151,17 @@ Return a JSON object with:
       id: `behavioral_${Date.now()}`,
       type: "behavioral",
       difficulty,
-      question: parsed.question || "Tell me about a time you had to work with a difficult team member.",
-      expectedKeywords: parsed.expectedKeywords || ["situation", "task", "action", "result"],
-      scoringGuidance: parsed.scoringGuidance || "Look for clear STAR method usage.",
+      question:
+        parsed.question ||
+        "Tell me about a time you had to work with a difficult team member.",
+      expectedKeywords: parsed.expectedKeywords || [
+        "situation",
+        "task",
+        "action",
+        "result",
+      ],
+      scoringGuidance:
+        parsed.scoringGuidance || "Look for clear STAR method usage.",
     };
   } catch (error) {
     console.error("Failed to generate behavioral question:", error);
@@ -159,9 +169,11 @@ Return a JSON object with:
       id: `behavioral_${Date.now()}`,
       type: "behavioral",
       difficulty,
-      question: "Tell me about a time you had to overcome a significant challenge at work.",
+      question:
+        "Tell me about a time you had to overcome a significant challenge at work.",
       expectedKeywords: ["situation", "task", "action", "result", "outcome"],
-      scoringGuidance: "Evaluate clarity of STAR method usage and relevance of example.",
+      scoringGuidance:
+        "Evaluate clarity of STAR method usage and relevance of example.",
     };
   }
 }
@@ -173,7 +185,9 @@ export async function generateTechnicalQuestion(
   difficulty: "easy" | "medium" | "hard",
   topic?: string
 ): Promise<InterviewQuestion> {
-  const selectedTopic = topic || TECHNICAL_TOPICS[Math.floor(Math.random() * TECHNICAL_TOPICS.length)];
+  const selectedTopic =
+    topic ||
+    TECHNICAL_TOPICS[Math.floor(Math.random() * TECHNICAL_TOPICS.length)];
 
   const response = await invokeLLM({
     messages: [
@@ -228,9 +242,17 @@ Return a JSON object with:
       id: `technical_${Date.now()}`,
       type: "technical",
       difficulty,
-      question: parsed.question || "Implement a function to reverse a linked list.",
-      expectedKeywords: parsed.expectedKeywords || ["linked list", "pointer", "iteration", "O(n)"],
-      scoringGuidance: parsed.scoringGuidance || "Evaluate correctness, efficiency, and explanation.",
+      question:
+        parsed.question || "Implement a function to reverse a linked list.",
+      expectedKeywords: parsed.expectedKeywords || [
+        "linked list",
+        "pointer",
+        "iteration",
+        "O(n)",
+      ],
+      scoringGuidance:
+        parsed.scoringGuidance ||
+        "Evaluate correctness, efficiency, and explanation.",
     };
   } catch (error) {
     console.error("Failed to generate technical question:", error);
@@ -239,8 +261,15 @@ Return a JSON object with:
       type: "technical",
       difficulty,
       question: "How would you design a cache system with LRU eviction?",
-      expectedKeywords: ["cache", "LRU", "hash map", "doubly linked list", "O(1)"],
-      scoringGuidance: "Evaluate system design thinking and algorithmic knowledge.",
+      expectedKeywords: [
+        "cache",
+        "LRU",
+        "hash map",
+        "doubly linked list",
+        "O(1)",
+      ],
+      scoringGuidance:
+        "Evaluate system design thinking and algorithmic knowledge.",
     };
   }
 }
@@ -252,7 +281,9 @@ export async function generateCaseStudyQuestion(
   difficulty: "easy" | "medium" | "hard",
   topic?: string
 ): Promise<InterviewQuestion> {
-  const selectedTopic = topic || CASE_STUDY_TOPICS[Math.floor(Math.random() * CASE_STUDY_TOPICS.length)];
+  const selectedTopic =
+    topic ||
+    CASE_STUDY_TOPICS[Math.floor(Math.random() * CASE_STUDY_TOPICS.length)];
 
   const response = await invokeLLM({
     messages: [
@@ -307,9 +338,19 @@ Return a JSON object with:
       id: `case_study_${Date.now()}`,
       type: "case_study",
       difficulty,
-      question: parsed.question || "How would you increase revenue for a struggling e-commerce platform?",
-      expectedKeywords: parsed.expectedKeywords || ["revenue", "cost", "strategy", "market", "data"],
-      scoringGuidance: parsed.scoringGuidance || "Evaluate analytical thinking and business acumen.",
+      question:
+        parsed.question ||
+        "How would you increase revenue for a struggling e-commerce platform?",
+      expectedKeywords: parsed.expectedKeywords || [
+        "revenue",
+        "cost",
+        "strategy",
+        "market",
+        "data",
+      ],
+      scoringGuidance:
+        parsed.scoringGuidance ||
+        "Evaluate analytical thinking and business acumen.",
     };
   } catch (error) {
     console.error("Failed to generate case study question:", error);
@@ -318,7 +359,14 @@ Return a JSON object with:
       type: "case_study",
       difficulty,
       question: "How would you estimate the market size for a new product?",
-      expectedKeywords: ["market size", "TAM", "SAM", "SOM", "bottom-up", "top-down"],
+      expectedKeywords: [
+        "market size",
+        "TAM",
+        "SAM",
+        "SOM",
+        "bottom-up",
+        "top-down",
+      ],
       scoringGuidance: "Evaluate estimation techniques and business logic.",
     };
   }
@@ -442,14 +490,22 @@ Evaluate this answer using the rubric above.`,
 /**
  * Generate comprehensive interview feedback for a complete session
  */
-export async function generateSessionFeedback(session: InterviewSession): Promise<{
+export async function generateSessionFeedback(
+  session: InterviewSession
+): Promise<{
   overallScore: number;
   strengths: string[];
   improvements: string[];
   recommendations: string[];
   nextSteps: string[];
 }> {
-  const averageScore = session.scores.length > 0 ? Math.round(session.scores.reduce((sum, s) => sum + s.score, 0) / session.scores.length) : 0;
+  const averageScore =
+    session.scores.length > 0
+      ? Math.round(
+          session.scores.reduce((sum, s) => sum + s.score, 0) /
+            session.scores.length
+        )
+      : 0;
 
   const response = await invokeLLM({
     messages: [
@@ -502,7 +558,12 @@ Provide comprehensive feedback on this interview performance.`,
               items: { type: "string" },
             },
           },
-          required: ["strengths", "improvements", "recommendations", "nextSteps"],
+          required: [
+            "strengths",
+            "improvements",
+            "recommendations",
+            "nextSteps",
+          ],
           additionalProperties: false,
         },
       },

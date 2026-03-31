@@ -12,7 +12,9 @@ export default function Networking() {
 
         <Card className="p-6 mb-8">
           <h2 className="text-xl font-semibold mb-4">Your Connections</h2>
-          <p className="text-gray-600 mb-4">Total: {connections?.length || 0}</p>
+          <p className="text-gray-600 mb-4">
+            Total: {connections?.length || 0}
+          </p>
           <div className="space-y-3">
             {connections?.map((conn: any) => (
               <div key={conn.id} className="p-4 border rounded-lg">

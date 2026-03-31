@@ -35,23 +35,56 @@ interface EngagementScore {
 /**
  * Calculate user engagement score based on activity
  */
-export async function calculateEngagementScore(activity: UserActivity): Promise<EngagementScore> {
+export async function calculateEngagementScore(
+  activity: UserActivity
+): Promise<EngagementScore> {
   // Profile completion score (0-20)
-  const profileScore = Math.min(20, (activity.profileUpdates + activity.skillsAdded + activity.externalProfilesLinked) * 2);
+  const profileScore = Math.min(
+    20,
+    (activity.profileUpdates +
+      activity.skillsAdded +
+      activity.externalProfilesLinked) *
+      2
+  );
 
   // Activity level score (0-20)
-  const activityScore = Math.min(20, (activity.jobsApplied + activity.connectionsCreated + activity.messagesExchanged) * 1.5);
+  const activityScore = Math.min(
+    20,
+    (activity.jobsApplied +
+      activity.connectionsCreated +
+      activity.messagesExchanged) *
+      1.5
+  );
 
   // Interview performance score (0-20)
-  const interviewScore = activity.interviewsCompleted > 0 ? Math.min(20, (activity.interviewsAverage / 10) * 20) : 0;
+  const interviewScore =
+    activity.interviewsCompleted > 0
+      ? Math.min(20, (activity.interviewsAverage / 10) * 20)
+      : 0;
 
   // Learning progress score (0-20)
-  const learningScore = activity.coursesCompleted > 0 ? Math.min(20, (activity.coursesCompleted / Math.max(activity.coursesEnrolled, 1)) * 20) : 0;
+  const learningScore =
+    activity.coursesCompleted > 0
+      ? Math.min(
+          20,
+          (activity.coursesCompleted / Math.max(activity.coursesEnrolled, 1)) *
+            20
+        )
+      : 0;
 
   // Networking score (0-20)
-  const networkingScore = Math.min(20, (activity.connectionsCreated + activity.messagesExchanged) * 1.5);
+  const networkingScore = Math.min(
+    20,
+    (activity.connectionsCreated + activity.messagesExchanged) * 1.5
+  );
 
-  const overallScore = Math.round(profileScore + activityScore + interviewScore + learningScore + networkingScore);
+  const overallScore = Math.round(
+    profileScore +
+      activityScore +
+      interviewScore +
+      learningScore +
+      networkingScore
+  );
 
   const recommendations: string[] = [];
   const nextSteps: string[] = [];
@@ -139,7 +172,12 @@ export async function generatePersonalizedRecommendations(
         },
         {
           role: "user",
-          content: `User: ${userProfile.name}\nSkills: ${userProfile.skills.join(", ")}\nInterview Average: ${userProfile.interviewScores.length > 0 ? (userProfile.interviewScores.reduce((a, b) => a + b) / userProfile.interviewScores.length).toFixed(1) : "N/A"}\nTop Job Matches: ${jobMatches.slice(0, 3).map((j) => j.title).join(", ")}\n\nProvide: skillsToLearn (array), coursesRecommended (array), networkingTips (array), interviewTips (array)`,
+          content: `User: ${userProfile.name}\nSkills: ${userProfile.skills.join(", ")}\nInterview Average: ${userProfile.interviewScores.length > 0 ? (userProfile.interviewScores.reduce((a, b) => a + b) / userProfile.interviewScores.length).toFixed(1) : "N/A"}\nTop Job Matches: ${jobMatches
+            .slice(0, 3)
+            .map(j => j.title)
+            .join(
+              ", "
+            )}\n\nProvide: skillsToLearn (array), coursesRecommended (array), networkingTips (array), interviewTips (array)`,
         },
       ],
       response_format: {
@@ -155,7 +193,12 @@ export async function generatePersonalizedRecommendations(
               networkingTips: { type: "array", items: { type: "string" } },
               interviewTips: { type: "array", items: { type: "string" } },
             },
-            required: ["skillsToLearn", "coursesRecommended", "networkingTips", "interviewTips"],
+            required: [
+              "skillsToLearn",
+              "coursesRecommended",
+              "networkingTips",
+              "interviewTips",
+            ],
             additionalProperties: false,
           },
         },
@@ -231,7 +274,7 @@ export async function analyzePersonality(
         },
         {
           role: "user",
-          content: `Interview Responses:\n${interviewResponses.map((r) => `Q: ${r.question}\nA: ${r.answer}`).join("\n\n")}\n\nProvide: personality (with communicationStyle, strengths, areasForImprovement, recommendedRoles), cultureFit (array with company, fitScore 0-100, reason)`,
+          content: `Interview Responses:\n${interviewResponses.map(r => `Q: ${r.question}\nA: ${r.answer}`).join("\n\n")}\n\nProvide: personality (with communicationStyle, strengths, areasForImprovement, recommendedRoles), cultureFit (array with company, fitScore 0-100, reason)`,
         },
       ],
       response_format: {
@@ -247,10 +290,21 @@ export async function analyzePersonality(
                 properties: {
                   communicationStyle: { type: "string" },
                   strengths: { type: "array", items: { type: "string" } },
-                  areasForImprovement: { type: "array", items: { type: "string" } },
-                  recommendedRoles: { type: "array", items: { type: "string" } },
+                  areasForImprovement: {
+                    type: "array",
+                    items: { type: "string" },
+                  },
+                  recommendedRoles: {
+                    type: "array",
+                    items: { type: "string" },
+                  },
                 },
-                required: ["communicationStyle", "strengths", "areasForImprovement", "recommendedRoles"],
+                required: [
+                  "communicationStyle",
+                  "strengths",
+                  "areasForImprovement",
+                  "recommendedRoles",
+                ],
                 additionalProperties: false,
               },
               cultureFit: {
@@ -354,7 +408,13 @@ export async function predictDreamJob(userProfile: {
               estimatedTimeline: { type: "string" },
               actionPlan: { type: "array", items: { type: "string" } },
             },
-            required: ["dreamJobTitle", "dreamCompany", "requiredSkills", "estimatedTimeline", "actionPlan"],
+            required: [
+              "dreamJobTitle",
+              "dreamCompany",
+              "requiredSkills",
+              "estimatedTimeline",
+              "actionPlan",
+            ],
             additionalProperties: false,
           },
         },

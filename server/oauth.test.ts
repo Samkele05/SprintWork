@@ -40,7 +40,10 @@ describe("OAuth Providers", () => {
     });
 
     it("should generate Google auth URL", () => {
-      const url = getGoogleAuthUrl("http://localhost:3000/callback", "state123");
+      const url = getGoogleAuthUrl(
+        "http://localhost:3000/callback",
+        "state123"
+      );
 
       expect(url).toContain("accounts.google.com");
       expect(url).toContain("client_id=");
@@ -82,7 +85,10 @@ describe("OAuth Providers", () => {
     });
 
     it("should generate GitHub auth URL", () => {
-      const url = getGitHubAuthUrl("http://localhost:3000/callback", "state456");
+      const url = getGitHubAuthUrl(
+        "http://localhost:3000/callback",
+        "state456"
+      );
 
       expect(url).toContain("github.com/login/oauth/authorize");
       expect(url).toContain("client_id=");
@@ -131,7 +137,10 @@ describe("OAuth Providers", () => {
     });
 
     it("should generate LinkedIn auth URL", () => {
-      const url = getLinkedInAuthUrl("http://localhost:3000/callback", "state789");
+      const url = getLinkedInAuthUrl(
+        "http://localhost:3000/callback",
+        "state789"
+      );
 
       expect(url).toContain("linkedin.com/oauth/v2/authorization");
       expect(url).toContain("client_id=");

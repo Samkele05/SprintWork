@@ -43,7 +43,9 @@ export default function PostJob() {
               <Input
                 placeholder="e.g., Senior Developer"
                 value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, title: e.target.value })
+                }
               />
             </div>
 
@@ -53,7 +55,9 @@ export default function PostJob() {
                 placeholder="Job description..."
                 rows={6}
                 value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, description: e.target.value })
+                }
               />
             </div>
 
@@ -63,7 +67,9 @@ export default function PostJob() {
                 placeholder="Job requirements..."
                 rows={4}
                 value={formData.requirements}
-                onChange={(e) => setFormData({ ...formData, requirements: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, requirements: e.target.value })
+                }
               />
             </div>
 
@@ -73,7 +79,9 @@ export default function PostJob() {
                 <Input
                   placeholder="e.g., $100,000 - $150,000"
                   value={formData.salary}
-                  onChange={(e) => setFormData({ ...formData, salary: e.target.value })}
+                  onChange={e =>
+                    setFormData({ ...formData, salary: e.target.value })
+                  }
                 />
               </div>
               <div>
@@ -81,14 +89,19 @@ export default function PostJob() {
                 <Input
                   placeholder="e.g., San Francisco, CA"
                   value={formData.location}
-                  onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                  onChange={e =>
+                    setFormData({ ...formData, location: e.target.value })
+                  }
                 />
               </div>
             </div>
 
             <div className="flex gap-4">
               <Button onClick={handleSubmit}>Post Job</Button>
-              <Button variant="outline" onClick={() => navigate("/recruiter/jobs")}>
+              <Button
+                variant="outline"
+                onClick={() => navigate("/recruiter/jobs")}
+              >
                 Cancel
               </Button>
             </div>

@@ -4,7 +4,13 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
@@ -101,12 +107,18 @@ export default function CVBuilderEnhanced() {
 
               <div>
                 <Label>Education</Label>
-                <Textarea placeholder="List your educational background..." rows={3} />
+                <Textarea
+                  placeholder="List your educational background..."
+                  rows={3}
+                />
               </div>
 
               <div>
                 <Label>Work Experience</Label>
-                <Textarea placeholder="Describe your professional experience..." rows={4} />
+                <Textarea
+                  placeholder="Describe your professional experience..."
+                  rows={4}
+                />
               </div>
 
               <Button className="w-full">Save Resume</Button>
@@ -114,11 +126,16 @@ export default function CVBuilderEnhanced() {
           </Card>
         ) : (
           <Card className="p-8">
-            <h2 className="text-xl font-semibold mb-6">Tailor Resume for Job</h2>
+            <h2 className="text-xl font-semibold mb-6">
+              Tailor Resume for Job
+            </h2>
             <div className="space-y-6">
               <div>
                 <Label>Select Resume</Label>
-                <Select value={selectedResumeId?.toString() || ""} onValueChange={(v) => setSelectedResumeId(parseInt(v))}>
+                <Select
+                  value={selectedResumeId?.toString() || ""}
+                  onValueChange={v => setSelectedResumeId(parseInt(v))}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Choose a resume..." />
                   </SelectTrigger>
@@ -134,7 +151,10 @@ export default function CVBuilderEnhanced() {
 
               <div>
                 <Label>Select Job to Tailor For</Label>
-                <Select value={selectedJobId?.toString() || ""} onValueChange={(v) => setSelectedJobId(parseInt(v))}>
+                <Select
+                  value={selectedJobId?.toString() || ""}
+                  onValueChange={v => setSelectedJobId(parseInt(v))}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Choose a job..." />
                   </SelectTrigger>
@@ -150,16 +170,22 @@ export default function CVBuilderEnhanced() {
 
               {tailoredResume && (
                 <div className="bg-blue-50 p-6 rounded-lg">
-                  <h3 className="font-semibold mb-4">Tailored Resume Preview</h3>
+                  <h3 className="font-semibold mb-4">
+                    Tailored Resume Preview
+                  </h3>
                   <div className="prose prose-sm max-w-none">
-                    <pre className="whitespace-pre-wrap text-sm">{JSON.stringify(tailoredResume, null, 2)}</pre>
+                    <pre className="whitespace-pre-wrap text-sm">
+                      {JSON.stringify(tailoredResume, null, 2)}
+                    </pre>
                   </div>
                 </div>
               )}
 
               <Button
                 onClick={handleTailorResume}
-                disabled={tailoringInProgress || !selectedResumeId || !selectedJobId}
+                disabled={
+                  tailoringInProgress || !selectedResumeId || !selectedJobId
+                }
                 className="w-full"
               >
                 {tailoringInProgress ? (

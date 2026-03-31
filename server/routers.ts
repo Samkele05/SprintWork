@@ -9,7 +9,7 @@ import { invokeLLM } from "./_core/llm";
 export const appRouter = router({
   system: systemRouter,
   auth: router({
-    me: publicProcedure.query((opts) => opts.ctx.user),
+    me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {
       const cookieOptions = getSessionCookieOptions(ctx.req);
       ctx.res.clearCookie(COOKIE_NAME, { ...cookieOptions, maxAge: -1 });
@@ -35,15 +35,26 @@ export const appRouter = router({
       )
       .mutation(async ({ ctx, input }) => {
         const dbConn = await db.getDb();
-        if (dbConn && (input.name !== undefined || input.bio !== undefined || input.location !== undefined || input.profilePictureUrl !== undefined)) {
+        if (
+          dbConn &&
+          (input.name !== undefined ||
+            input.bio !== undefined ||
+            input.location !== undefined ||
+            input.profilePictureUrl !== undefined)
+        ) {
           const { eq } = await import("drizzle-orm");
           const { users } = await import("../drizzle/schema");
           const updateData: Record<string, unknown> = {};
           if (input.name !== undefined) updateData.name = input.name;
           if (input.bio !== undefined) updateData.bio = input.bio;
-          if (input.location !== undefined) updateData.location = input.location;
-          if (input.profilePictureUrl !== undefined) updateData.profilePictureUrl = input.profilePictureUrl;
-          await dbConn.update(users).set(updateData).where(eq(users.id, ctx.user.id));
+          if (input.location !== undefined)
+            updateData.location = input.location;
+          if (input.profilePictureUrl !== undefined)
+            updateData.profilePictureUrl = input.profilePictureUrl;
+          await dbConn
+            .update(users)
+            .set(updateData)
+            .where(eq(users.id, ctx.user.id));
         }
         return { success: true };
       }),
@@ -128,7 +139,9 @@ export const appRouter = router({
       .input(
         z.object({
           skillName: z.string(),
-          proficiencyLevel: z.enum(["beginner", "intermediate", "advanced", "expert"]).optional(),
+          proficiencyLevel: z
+            .enum(["beginner", "intermediate", "advanced", "expert"])
+            .optional(),
           yearsOfExperience: z.number().optional(),
         })
       )
@@ -155,7 +168,12 @@ export const appRouter = router({
     add: protectedProcedure
       .input(
         z.object({
-          platform: z.enum(["github", "linkedin", "portfolio", "personal_website"]),
+          platform: z.enum([
+            "github",
+            "linkedin",
+            "portfolio",
+            "personal_website",
+          ]),
           profileUrl: z.string().url(),
           username: z.string().optional(),
         })
@@ -322,7 +340,10 @@ export const appRouter = router({
         })
       )
       .mutation(async ({ input }) => {
-        return await db.updateApplicationStatus(input.applicationId, input.status);
+        return await db.updateApplicationStatus(
+          input.applicationId,
+          input.status
+        );
       }),
   }),
 
@@ -357,7 +378,12 @@ export const appRouter = router({
       .input(
         z.object({
           jobId: z.number().optional(),
-          interviewType: z.enum(["behavioral", "technical", "case_study", "general"]),
+          interviewType: z.enum([
+            "behavioral",
+            "technical",
+            "case_study",
+            "general",
+          ]),
           difficulty: z.enum(["easy", "medium", "hard"]).optional(),
         })
       )
@@ -558,7 +584,8 @@ export const appRouter = router({
         })
       )
       .mutation(async ({ input }) => {
-        const { advancedCvService } = await import("./services/advancedCvService");
+        const { advancedCvService } =
+          await import("./services/advancedCvService");
         return await advancedCvService.analyzeCVForJob(input.cvContent, {
           title: input.jobTitle,
           description: input.jobDescription,
@@ -575,13 +602,16 @@ export const appRouter = router({
         z.object({
           jobTitle: z.string(),
           jobDescription: z.string(),
-          interviewType: z.enum(["behavioral", "technical", "case_study", "mixed"]).optional(),
+          interviewType: z
+            .enum(["behavioral", "technical", "case_study", "mixed"])
+            .optional(),
           difficulty: z.enum(["easy", "medium", "hard"]).optional(),
           count: z.number().optional(),
         })
       )
       .query(async ({ input }) => {
-        const { advancedInterviewService } = await import("./services/advancedInterviewService");
+        const { advancedInterviewService } =
+          await import("./services/advancedInterviewService");
         return await advancedInterviewService.generateInterviewQuestions(
           input.jobTitle,
           input.jobDescription,

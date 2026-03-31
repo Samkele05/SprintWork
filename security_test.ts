@@ -14,22 +14,29 @@ async function runSecurityAudit() {
   }
 
   if (!ENV.databaseUrl) {
-    findings.push("WARNING: DATABASE_URL is missing. App will run in degraded mode.");
+    findings.push(
+      "WARNING: DATABASE_URL is missing. App will run in degraded mode."
+    );
   } else {
     console.log("✅ DATABASE_URL is configured.");
   }
 
   if (!ENV.forgeApiKey) {
-    findings.push("WARNING: BUILT_IN_FORGE_API_KEY is missing. AI features will fail.");
+    findings.push(
+      "WARNING: BUILT_IN_FORGE_API_KEY is missing. AI features will fail."
+    );
   } else {
     console.log("✅ AI API Key is configured.");
   }
 
   // 2. Check Cookie Security
   console.log("\n[2] Checking Cookie Security...");
-  const mockReq = { protocol: "https", get: (name: string) => name === "x-forwarded-proto" ? "https" : "" } as any;
+  const mockReq = {
+    protocol: "https",
+    get: (name: string) => (name === "x-forwarded-proto" ? "https" : ""),
+  } as any;
   const cookieOptions = getSessionCookieOptions(mockReq);
-  
+
   if (!cookieOptions.httpOnly) {
     findings.push("HIGH: Session cookies are not HttpOnly.");
   } else {
@@ -45,7 +52,9 @@ async function runSecurityAudit() {
   // 3. Check for exposed frontend keys (Simulation)
   console.log("\n[3] Scanning for frontend-exposed secrets...");
   // This is a placeholder for a more complex regex scan if needed
-  console.log("✅ No hardcoded secrets found in frontend source (based on previous grep).");
+  console.log(
+    "✅ No hardcoded secrets found in frontend source (based on previous grep)."
+  );
 
   // 4. Summary
   console.log("\n=== Audit Summary ===");

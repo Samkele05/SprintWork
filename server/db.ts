@@ -173,23 +173,29 @@ export async function getUserResumes(userId: number) {
     .from(resumes)
     .where(eq(resumes.userId, userId))
     .orderBy(desc(resumes.createdAt));
-  
+
   return results.map(resume => ({
     ...resume,
-    content: typeof resume.content === 'string' ? JSON.parse(resume.content) : resume.content,
+    content:
+      typeof resume.content === "string"
+        ? JSON.parse(resume.content)
+        : resume.content,
   }));
 }
 
 export async function createResume(data: any) {
   const db = await getDb();
   if (!db) return undefined;
-  
+
   // Serialize content to JSON string if it's an object
   const serializedData = {
     ...data,
-    content: typeof data.content === 'string' ? data.content : JSON.stringify(data.content),
+    content:
+      typeof data.content === "string"
+        ? data.content
+        : JSON.stringify(data.content),
   };
-  
+
   const result = await db.insert(resumes).values(serializedData as any);
   return result;
 }
@@ -197,13 +203,20 @@ export async function createResume(data: any) {
 export async function getResumeById(id: number) {
   const db = await getDb();
   if (!db) return undefined;
-  const result = await db.select().from(resumes).where(eq(resumes.id, id)).limit(1);
+  const result = await db
+    .select()
+    .from(resumes)
+    .where(eq(resumes.id, id))
+    .limit(1);
   if (result.length === 0) return undefined;
-  
+
   const resume = result[0];
   return {
     ...resume,
-    content: typeof resume.content === 'string' ? JSON.parse(resume.content) : resume.content,
+    content:
+      typeof resume.content === "string"
+        ? JSON.parse(resume.content)
+        : resume.content,
   };
 }
 
@@ -391,7 +404,10 @@ export async function getMockInterviewById(id: number) {
 export async function updateMockInterview(id: number, data: any) {
   const db = await getDb();
   if (!db) return undefined;
-  return await db.update(mockInterviews).set(data).where(eq(mockInterviews.id, id));
+  return await db
+    .update(mockInterviews)
+    .set(data)
+    .where(eq(mockInterviews.id, id));
 }
 
 // Connections queries
@@ -472,29 +488,30 @@ export async function getRecruiterPostedJobs(recruiterId: number) {
 export async function createPostedJob(data: any) {
   const db = await getDb();
   if (!db) return undefined;
-  
+
   // Create posted job record
   const postedJobResult = await db.insert(postedJobs).values({
     ...data,
-    status: 'published',
+    status: "published",
   });
-  
+
   // Also create entry in main jobs table for search
-  const jobId = 'internal_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+  const jobId =
+    "internal_" + Date.now() + "_" + Math.random().toString(36).substr(2, 9);
   await db.insert(jobs).values({
     title: data.title,
     description: data.description,
-    requirements: data.requirements || '',
-    company: data.company || 'Unknown Company',
-    location: data.location || '',
-    salary: data.salary || '',
-    jobType: data.jobType || 'full_time',
+    requirements: data.requirements || "",
+    company: data.company || "Unknown Company",
+    location: data.location || "",
+    salary: data.salary || "",
+    jobType: data.jobType || "full_time",
     isActive: true,
     postedDate: new Date(),
-    source: 'other',
+    source: "other",
     sourceJobId: jobId,
   });
-  
+
   return postedJobResult;
 }
 
@@ -512,7 +529,9 @@ export async function getTailoredResumeForJob(userId: number, jobId: number) {
   const result = await db
     .select()
     .from(tailoredResumes)
-    .where(and(eq(tailoredResumes.userId, userId), eq(tailoredResumes.jobId, jobId)))
+    .where(
+      and(eq(tailoredResumes.userId, userId), eq(tailoredResumes.jobId, jobId))
+    )
     .limit(1);
   return result.length > 0 ? result[0] : undefined;
 }
@@ -526,12 +545,21 @@ function or(...conditions: any[]) {
 export async function deleteSkill(skillId: number, userId: number) {
   const db = await getDb();
   if (!db) return undefined;
-  return await db.delete(skills).where(and(eq(skills.id, skillId), eq(skills.userId, userId)));
+  return await db
+    .delete(skills)
+    .where(and(eq(skills.id, skillId), eq(skills.userId, userId)));
 }
 
 // Delete external profile
 export async function deleteExternalProfile(profileId: number, userId: number) {
   const db = await getDb();
   if (!db) return undefined;
-  return await db.delete(externalProfiles).where(and(eq(externalProfiles.id, profileId), eq(externalProfiles.userId, userId)));
+  return await db
+    .delete(externalProfiles)
+    .where(
+      and(
+        eq(externalProfiles.id, profileId),
+        eq(externalProfiles.userId, userId)
+      )
+    );
 }
